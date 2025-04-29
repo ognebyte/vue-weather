@@ -11,7 +11,7 @@ import type {
     WeatherAlert,
     WeatherData,
     SearchLocation
-} from "./weatherInterface";
+} from "@/utils/weatherInterface";
 
 
 export const initialStateWeatherLocation: WeatherLocation = {

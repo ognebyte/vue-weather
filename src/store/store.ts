@@ -10,7 +10,7 @@ export const storeWeather = reactive({
         this.data = initialStateWeatherData
     },
     loading: <boolean>true,
-    async changeCity(query: string) {
+    async changeLocation(query: string) {
         try {
             this.loading = true
             this.data = await fetchWeather(query)
