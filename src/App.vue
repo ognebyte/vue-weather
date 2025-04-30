@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { SelectButton, Button } from "primevue";
-import SearchCity from '@/components/SearchCity.vue';
+import SearchLocation from '@/components/SearchLocation.vue';
 import LocationInfo from '@/components/LocationInfo.vue';
 import CurrentWeather from '@/components/CurrentWeather.vue';
 import ForecastWeather from '@/components/ForecastWeather.vue';
@@ -44,7 +44,7 @@ function toggleDarkMode() {
             <Button :icon="isDarkMode ? 'pi pi-moon' : 'pi pi-sun'" severity="secondary" @click="toggleDarkMode()" />
             <SelectButton v-model:model-value="isCelsius" option-value="isCelsius" :options="tempOptions"
                 option-label="name" :allow-empty="false" />
-            <SearchCity />
+            <SearchLocation />
         </div>
     </header>
 

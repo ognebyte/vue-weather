@@ -24,18 +24,18 @@ export const storeWeather = reactive({
 })
 
 
-export const storeLocation = reactive({
+export const storeSearchLocations = reactive({
     data: <SearchLocation[]>[],
     initialStateData() {
         this.data = []
     },
     async searchLocation(query?: string) {
+        if (!query?.trim()) {
+            this.initialStateData()
+            return
+        }
         try {
-            if (query) {
-                this.data = await fetchSearchLocation(query)
-            } else {
-                this.initialStateData()
-            }
+            this.data = await fetchSearchLocation(query)
         } catch (error) {
             alert(error)
         }
