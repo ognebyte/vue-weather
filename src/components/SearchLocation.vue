@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { storeSearchLocations, storeWeather } from '@/store/store';
-import type { SearchLocation } from '@/utils/weatherInterface';
-import { Button, Drawer, IconField, InputIcon, InputText, Message, ProgressSpinner } from 'primevue';
 import { computed, onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { Button, Drawer, IconField, InputIcon, InputText, Message, ProgressSpinner } from 'primevue';
+import type { SearchLocation } from '@/utils/weatherInterface';
+import { storeSearchLocations } from '@/store/store';
 import LocationsList from '@/components/LocationsList.vue';
 
 
+const router = useRouter()
 const visible = ref(false)
 const recentSearches = ref<SearchLocation[]>([])
 const inputSearch = ref<string>('')
@@ -34,9 +36,9 @@ function updateRecentSearches(location: SearchLocation, removeOnly = false) {
 }
 
 function locationClick(location: SearchLocation) {
-    storeWeather.changeLocation(`${location.lat},${location.lon}`)
     updateRecentSearches(location)
     visible.value = false
+    router.push({ query: { lat: location.lat, lon: location.lon } })
 }
 
 function deleteRecent(location: SearchLocation) {
