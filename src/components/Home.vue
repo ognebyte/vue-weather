@@ -9,6 +9,7 @@ import HourlyForecast from '@/components/HourlyForecast.vue'
 import AirQuality from '@/components/AirQuality.vue';
 import AstroInfo from '@/components/AstroInfo.vue';
 import Alerts from '@/components/Alerts.vue';
+import CurrentWeatherHourly from '@/components/CurrentWeatherHourly.vue';
 
 
 const route = useRoute()
@@ -35,26 +36,40 @@ watch(() => route.query, (query) => {
 
 
 <template>
-    <div class="weather-wrapper">
-        <section style="flex: 1; flex-grow: 2;">
+    <div class="home-wrapper">
+        <section class="home-section" style="flex-grow: 2;">
             <LocationInfo />
-            <CurrentWeather :is-celsius="true" />
+            <CurrentWeather />
+            <CurrentWeatherHourly />
             <AirQuality />
             <AstroInfo />
             <Alerts />
         </section>
-        <section style="flex: 1; display: flex; flex-direction: column; gap: .5rem;">
-            <ForecastWeather :is-celsius="true" />
+        <section class="home-section">
+            <ForecastWeather />
             <HourlyForecast />
         </section>
     </div>
 </template>
 
 <style scoped>
-.weather-wrapper {
+.home-wrapper {
     display: flex;
+    flex-direction: column;
     width: 100%;
-    flex-direction: row;
     gap: .5rem;
+}
+
+.home-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem
+}
+
+@media (min-width: 900px) {
+    .home-wrapper {
+        flex-direction: row;
+    }
 }
 </style>

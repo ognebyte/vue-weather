@@ -5,11 +5,8 @@ import moment from 'moment';
 import { storeWeather } from '@/store/store';
 
 
-defineProps<{
-    isCelsius: boolean
-}>()
-
 const forecastDay = computed(() => storeWeather.data.forecast.forecastday);
+const isCelsius = computed(() => storeWeather.isCelsius);
 </script>
 
 <template>

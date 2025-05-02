@@ -42,8 +42,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex-row" style="justify-content: space-between; align-items: center; gap: .5rem;">
-        <div class="header-content">
+    <div class="flex-row" style="flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem;">
+        <div class="header-content" style="gap: 2rem;">
             <Message severity="secondary" variant="simple">
                 <IconLogo />
             </Message>
@@ -65,6 +65,6 @@ onMounted(() => {
 .header-content {
     display: flex;
     flex-direction: row;
-    gap: 1rem;
+    gap: .5rem;
 }
 </style>
