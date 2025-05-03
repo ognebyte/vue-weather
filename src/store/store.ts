@@ -11,6 +11,7 @@ export const storeWeather = reactive({
     },
     loading: <boolean>true,
     isCelsius: <boolean>true,
+    dateFormat: <string>"YYYY-MM-DD HH:mm",
     async changeLocation(query: string) {
         try {
             this.loading = true

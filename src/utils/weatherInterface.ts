@@ -1,7 +1,9 @@
 export interface WeatherData {
     location: WeatherLocation;
     current: CurrentWeather;
-    forecast: Forecast;
+    forecast: {
+        forecastday: ForecastDay[]
+    };
     alerts: {
         alert: WeatherAlert[];
     };
@@ -66,10 +68,6 @@ export interface CurrentWeather {
     wind_mph: number;
     windchill_c: number;
     windchill_f: number;
-}
-
-export interface Forecast {
-    forecastday: ForecastDay[];
 }
 
 export interface ForecastDay {

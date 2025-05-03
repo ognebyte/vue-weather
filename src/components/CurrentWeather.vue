@@ -10,8 +10,8 @@ import IconPressure from '@/components/icons/IconPressure.vue';
 import IconDirection from '@/components/icons/IconDirection.vue';
 
 
-
 const currentWeather = computed(() => storeWeather.data.current);
+const currentLocation = computed(() => storeWeather.data.location);
 const isCelsius = computed(() => storeWeather.isCelsius);
 const iconSize = "1.5rem";
 </script>
@@ -20,8 +20,12 @@ const iconSize = "1.5rem";
     <div class="card" style="min-height: 200px;">
         <Skeleton v-if="storeWeather.loading" height="100%" />
         <div class="card-content" v-else>
-            <Message severity="secondary" variant="simple" size="large">
-                <p class="h3-style">{{ moment(currentWeather.last_updated, "YYYY-MM-DD, hh:mm").format('dddd') }}</p>
+            <Message severity="secondary" variant="simple">
+                <span class="h3-style">
+                    {{ moment(currentWeather.last_updated, storeWeather.dateFormat).format('dddd') }}
+                </span>
+                <br>
+                Now {{ moment(storeWeather.data.location.localtime, storeWeather.dateFormat).format('HH:mm') }}
             </Message>
             <div class="flex-row wrap" style="align-items: center; gap: .5rem;">
                 <p class="h1-style">{{ formatTemp(isCelsius, currentWeather.temp_c, currentWeather.temp_f) }}</p>
@@ -55,9 +59,9 @@ const iconSize = "1.5rem";
                     Pressure: {{ currentWeather.pressure_mb }} mb
                 </li>
             </ul>
- 
+
             <Message severity="secondary" variant="simple" style="align-self: flex-end;">
-                last updated: {{ moment(currentWeather.last_updated, "YYYY-MM-DD, hh:mm").format('hh:mm') }}
+                last updated: {{ moment(currentWeather.last_updated, storeWeather.dateFormat).format('HH:mm') }}
             </Message>
         </div>
     </div>

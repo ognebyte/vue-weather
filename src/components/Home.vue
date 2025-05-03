@@ -5,7 +5,7 @@ import { storeWeather } from '@/store/store';
 import LocationInfo from '@/components/LocationInfo.vue';
 import CurrentWeather from '@/components/CurrentWeather.vue';
 import ForecastWeather from '@/components/ForecastWeather.vue';
-import HourlyForecast from '@/components/HourlyForecast.vue'
+import HourlyForecast from '@/components/HourlyWeather.vue'
 import AirQuality from '@/components/AirQuality.vue';
 import AstroInfo from '@/components/AstroInfo.vue';
 import Alerts from '@/components/Alerts.vue';
@@ -47,7 +47,6 @@ watch(() => route.query, (query) => {
         </section>
         <section class="home-section">
             <ForecastWeather />
-            <HourlyForecast />
         </section>
     </div>
 </template>
@@ -64,7 +63,8 @@ watch(() => route.query, (query) => {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: .5rem
+    gap: .5rem;
+    overflow: hidden;
 }
 
 @media (min-width: 900px) {
