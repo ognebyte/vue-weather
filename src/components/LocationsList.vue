@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { SearchLocation } from '@/utils/weatherInterface';
 import { Button, Divider } from 'primevue';
+import type { SearchLocation } from '@/utils/weatherInterface';
 
 defineProps<{
     locations: SearchLocation[]

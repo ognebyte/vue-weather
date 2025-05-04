@@ -17,21 +17,30 @@ li {
 h1,
 .h1-style {
     font-size: 3rem;
+    font-weight: 700;
 }
 
 h2,
 .h2-style {
     font-size: 2rem;
+    font-weight: 700;
 }
 
 h3,
 .h3-style {
     font-size: 1.5rem;
+    font-weight: 400;
 }
 
 h4,
 .h4-style {
     font-size: 1.25rem;
+    font-weight: 400;
+}
+
+.small-text {
+    font-size: 0.875rem;
+    font-weight: 400;
 }
 
 html {
@@ -58,25 +67,39 @@ body {
 }
 
 header {
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid transparent;
+    transition: .5s ease-in;
+    transition-property: background-color, border-color, backdrop-filter;
+    z-index: 10;
+}
+
+.header-wrapper {
     max-width: var(--max-width);
     margin: auto;
-    margin-block: 1rem;
-    padding-inline: 1.5rem;
+    padding: 1rem 1.5rem;
+}
+
+.header-on-scroll {
+    background-color: var(--card-background-color);
+    border-color: var(--secondary-text-color);
+    backdrop-filter: blur(8px);
 }
 
 main {
     max-width: var(--max-width);
     margin: auto;
+    margin-top: 1rem;
     padding-inline: 1.5rem;
 }
 
 .card {
     width: 100%;
-    border: 1px solid var(--border-color);
     border-radius: 0.75rem;
     /* background-color: var(--pv-surface-800); */
     background-color: var(--card-background-color);
-    backdrop-filter: blur(5px);
+    /* backdrop-filter: blur(5px); */
     overflow: hidden;
 }
 
@@ -87,6 +110,19 @@ main {
     height: 100%;
     padding: 1rem;
     gap: 1rem;
+}
+
+.card-label {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    color: var(--secondary-text-color);
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.secondary-text-color {
+    color: var(--secondary-text-color);
 }
 
 .flex-row {
@@ -101,6 +137,18 @@ main {
 
 .wrap {
     flex-wrap: wrap;
+}
+
+.gap-small {
+    gap: .25rem;
+}
+
+.gap {
+    gap: .5rem;
+}
+
+.gap-large {
+    gap: 1rem;
 }
 
 .ul-list {

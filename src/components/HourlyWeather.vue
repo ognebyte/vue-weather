@@ -1,36 +1,37 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { Button, Divider, Message } from 'primevue';
+import { computed, ref } from 'vue';
+import { Button, Divider } from 'primevue';
 import moment from 'moment';
 import { storeWeather } from '@/store/store';
+import type { HourlyForecast } from '@/utils/weatherInterface';
 import { formatTemp } from '@/utils/formatTemp';
-import type { ForecastDay, HourlyForecast } from '@/utils/weatherInterface';
-import IconDroplets from './icons/IconDroplets.vue';
+import IconSnow from '@/components/icons/IconSnow.vue';
+import IconDroplet from '@/components/icons/IconDroplet.vue';
 
 
-const props = defineProps<{
+defineProps<{
     hourlyForecast: HourlyForecast[]
-    dayForecast: ForecastDay[]
 }>()
 
 const scrollContainer = ref<HTMLElement | null>(null);
-const isCelsius = computed(() => storeWeather.isCelsius);
+const storeWeatherDateFormat = computed(() => storeWeather.dateFormat);
+const storeWeatherIsCelsius = computed(() => storeWeather.isCelsius);
 
 
-const scroll = (direction: 'left' | 'right') => {
+function scroll(direction: 'left' | 'right') {
     const container = scrollContainer.value;
     if (!container) return;
     const scrollAmount = 300;
     container.scrollBy({ left: direction === 'right' ? scrollAmount : -scrollAmount, behavior: 'smooth' });
 };
 
-const formatTime = (time: string) => {
-    const m = moment(time, storeWeather.dateFormat);
+function formatTime(time: string) {
+    const m = moment(time, storeWeatherDateFormat.value);
     return m.format('HH:mm') === '00:00' ? m.format('ddd, HH:mm') : m.format('HH:mm');
 };
 
-const isNewDay = (time: string) => {
-    return moment(time, storeWeather.dateFormat).format('HH:mm') === '00:00';
+function isNewDay(time: string) {
+    return moment(time, storeWeatherDateFormat.value).format('HH:mm') === '00:00';
 };
 </script>
 
@@ -41,18 +42,20 @@ const isNewDay = (time: string) => {
         <div class="hourly-scroll" ref="scrollContainer">
             <div v-for="(hour, index) in hourlyForecast" :key="hour.time" class="flex-row" style="flex-shrink: 0;">
                 <Divider v-if="index !== 0 && isNewDay(hour.time)" layout="vertical" />
-                <div class="flex-column hourly-content">
-                    <Message severity="secondary" variant="simple">
+                <div class="flex-column gap-small" style="align-items: center;">
+                    <p class="secondary-text-color">
                         {{ formatTime(hour.time) }}
-                    </Message>
+                    </p>
                     <img :src="'https:' + hour.condition.icon" :alt="hour.condition.text" />
-                    <p class="h4-style">{{ formatTemp(isCelsius, hour.temp_c, hour.temp_f) }}</p>
-                    <Message v-if="hour.chance_of_rain != 0" severity="secondary" variant="simple" size="small">
-                        <div class="flex-row" style="align-items: center; gap: .25rem;">
-                            <IconDroplets size="1rem"/>
-                            {{ hour.chance_of_rain }}
-                        </div>
-                    </Message>
+                    <p class="h4-style">
+                        {{ formatTemp(storeWeatherIsCelsius, hour.temp_c, hour.temp_f) }}
+                    </p>
+                    <span v-if="hour.chance_of_snow || hour.chance_of_rain"
+                        class="flex-row secondary-text-color small-text gap-small" style="align-items: center;">
+                        <IconSnow v-if="hour.chance_of_snow" size="1rem" />
+                        <IconDroplet v-else size="1rem" />
+                        {{ hour.chance_of_snow ? hour.chance_of_snow : hour.chance_of_rain }}%
+                    </span>
                 </div>
             </div>
         </div>
@@ -66,11 +69,6 @@ const isNewDay = (time: string) => {
     position: relative;
     align-items: stretch;
     gap: .5rem;
-}
-
-.hourly-content {
-    align-items: center;
-    gap: .25rem;
 }
 
 .hourly-scroll {
@@ -88,6 +86,10 @@ const isNewDay = (time: string) => {
 }
 
 @media (width < 600px) {
+    .hourly-scroll {
+        padding-inline: 0;
+    }
+
     .scroll-btn {
         display: none;
     }

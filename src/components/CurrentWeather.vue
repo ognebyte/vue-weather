@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Message, Skeleton } from 'primevue';
+import { Skeleton } from 'primevue';
 import moment from 'moment';
 import { storeWeather } from '@/store/store';
 import { formatTemp } from '@/utils/formatTemp';
@@ -12,23 +12,19 @@ import IconDirection from '@/components/icons/IconDirection.vue';
 
 const currentWeather = computed(() => storeWeather.data.current);
 const currentLocation = computed(() => storeWeather.data.location);
-const isCelsius = computed(() => storeWeather.isCelsius);
+const storeWeatherIsCelsius = computed(() => storeWeather.isCelsius);
+const storeWeatherLoading = computed(() => storeWeather.loading);
+const storeWeatherDateFormat = computed(() => storeWeather.dateFormat);
 const iconSize = "1.5rem";
 </script>
 
 <template>
     <div class="card" style="min-height: 200px;">
-        <Skeleton v-if="storeWeather.loading" height="100%" />
-        <div class="card-content" v-else>
-            <Message severity="secondary" variant="simple">
-                <span class="h3-style">
-                    {{ moment(currentWeather.last_updated, storeWeather.dateFormat).format('dddd') }}
-                </span>
-                <br>
-                Now {{ moment(storeWeather.data.location.localtime, storeWeather.dateFormat).format('HH:mm') }}
-            </Message>
-            <div class="flex-row wrap" style="align-items: center; gap: .5rem;">
-                <p class="h1-style">{{ formatTemp(isCelsius, currentWeather.temp_c, currentWeather.temp_f) }}</p>
+        <Skeleton v-if="storeWeatherLoading" height="100%" />
+        <div v-else class="card-content">
+            <h3>{{ moment(currentWeather.last_updated, storeWeatherDateFormat).format('dddd, HH:mm') }}</h3>
+            <div class="flex-row wrap gap" style="align-items: center;">
+                <h1>{{ formatTemp(storeWeatherIsCelsius, currentWeather.temp_c, currentWeather.temp_f) }}</h1>
 
                 <picture>
                     <source media="(min-width: 900px)"
@@ -37,32 +33,33 @@ const iconSize = "1.5rem";
                 </picture>
 
                 <div class="flex-column">
-                    <p class="h2-style">{{ currentWeather.condition.text }}</p>
-                    <Message severity="secondary" variant="simple">
-                        feels like {{ formatTemp(isCelsius, currentWeather.feelslike_c, currentWeather.feelslike_f) }}
-                    </Message>
+                    <h2>{{ currentWeather.condition.text }}</h2>
+                    <p class="secondary-text-color">
+                        feels like {{ formatTemp(storeWeatherIsCelsius, currentWeather.feelslike_c,
+                            currentWeather.feelslike_f) }}
+                    </p>
                 </div>
             </div>
 
-            <ul class="ul-list flex-row wrap" style="align-items: center; gap: 1rem;">
+            <ul class="ul-list flex-row wrap gap-large" style="align-items: center;">
                 <li>
                     <IconWind :size="iconSize" />
-                    <p>{{ currentWeather.wind_kph }} km/h</p>
+                    {{ currentWeather.wind_kph }} kph / {{ currentWeather.wind_mph }} mph
                     <IconDirection :size="iconSize" :rotate="currentWeather.wind_degree" />
                 </li>
                 <li>
                     <IconWater :size="iconSize" />
-                    <p>Humidity: {{ currentWeather.humidity }}%</p>
+                    Humidity: {{ currentWeather.humidity }}%
                 </li>
                 <li>
                     <IconPressure :size="iconSize" />
-                    Pressure: {{ currentWeather.pressure_mb }} mb
+                    Pressure: {{ currentWeather.pressure_mb }} mb / {{ currentWeather.pressure_in }} in
                 </li>
             </ul>
 
-            <Message severity="secondary" variant="simple" style="align-self: flex-end;">
-                last updated: {{ moment(currentWeather.last_updated, storeWeather.dateFormat).format('HH:mm') }}
-            </Message>
+            <p class="small-text secondary-text-color" style="align-self: flex-end;">
+                Updated: {{ moment(currentWeather.last_updated, storeWeatherDateFormat).format('MMM D, HH:mm') }}
+            </p>
         </div>
     </div>
 </template>

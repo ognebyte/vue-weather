@@ -1,4 +1,6 @@
 :root {
+    --primary-text-color: var(--pv-primary-color);
+    --secondary-text-color: var(--pv-surface-500);
     --primary-background-gradient-color-1: #c8d8dd;
     --primary-background-gradient-color-2: #8e9eab;
     --border-color: color-mix(in srgb, var(--pv-primary-color) 100%, transparent 100%);

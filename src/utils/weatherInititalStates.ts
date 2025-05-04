@@ -7,7 +7,6 @@ import type {
     DayForecast,
     HourlyForecast,
     ForecastDay,
-    Forecast,
     WeatherAlert,
     WeatherData,
     SearchLocation
@@ -156,10 +155,6 @@ export const initialStateForecastDay: ForecastDay = {
     hour: []
 };
 
-export const initialStateForecast: Forecast = {
-    forecastday: []
-};
-
 export const initialStateWeatherAlert: WeatherAlert = {
     areas: '',
     category: '',
@@ -179,7 +174,9 @@ export const initialStateWeatherAlert: WeatherAlert = {
 export const initialStateWeatherData: WeatherData = {
     location: initialStateWeatherLocation,
     current: initialStateCurrentWeather,
-    forecast: initialStateForecast,
+    forecast: {
+        forecastday: []
+    },
     alerts: {
         alert: []
     }

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { Button, Drawer, IconField, InputIcon, InputText, Message, ProgressSpinner } from 'primevue';
-import type { SearchLocation } from '@/utils/weatherInterface';
+import { Button, Drawer, IconField, InputIcon, InputText, ProgressSpinner } from 'primevue';
 import { storeSearchLocations } from '@/store/store';
+import type { SearchLocation } from '@/utils/weatherInterface';
 import LocationsList from '@/components/LocationsList.vue';
 
 
@@ -82,25 +82,25 @@ onMounted(() => {
         </template>
 
         <template #footer>
-            <Message size="small" severity="secondary" variant="simple">
+            <p class="small-text secondary-text-color">
                 Pass city name, Latitude/Longitude (decimal degree), US Zipcode, UK Postcode, Canada Postalcode or IP
                 address.
-            </Message>
+            </p>
         </template>
 
 
         <div v-if="isRecent" v-bind:class="$style['drawer-content']" class="flex-row">
-            <Message severity="secondary" variant="simple"
+            <p class="secondary-text-color"
                 v-bind:class="[{ [$style['drawer-content-center']]: recentSearches.length === 0 }]">
                 {{ recentSearches.length === 0 ? 'No recent searches' : 'Recent' }}
-            </Message>
+            </p>
         </div>
         <div v-else-if="storeSearchLocations.data.length === 0" v-bind:class="$style['drawer-content']">
             <ProgressSpinner v-if="showLoading" v-bind:class="$style['drawer-content-center']"
                 style="width: 64px; height: 64px;" />
-            <Message v-else severity="secondary" variant="simple" v-bind:class="$style['drawer-content-center']">
+            <p v-else class="secondary-text-color" v-bind:class="$style['drawer-content-center']">
                 No results for "{{ inputSearch }}"
-            </Message>
+            </p>
         </div>
 
         <LocationsList :locations="displayLocations" :location-click="locationClick" :is-recent="isRecent"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { storeWeather } from '@/store/store';
 import { Skeleton } from 'primevue';
+import { storeWeather } from '@/store/store';
 
 const alerts = computed(() => storeWeather.data.alerts.alert);
 </script>

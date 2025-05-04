@@ -12,15 +12,19 @@ export const storeWeather = reactive({
     loading: <boolean>true,
     isCelsius: <boolean>true,
     dateFormat: <string>"YYYY-MM-DD HH:mm",
+    error: <any>null,
     async changeLocation(query: string) {
+        this.loading = true
+        this.error = null
+        this.initialStateData()
         try {
-            this.loading = true
-            this.data = await fetchWeather(query)
-            console.log(this.data)
-        } catch (error) {
-            alert(error)
+            const result = await fetchWeather(query);
+            this.data = result;
+            console.log(result)
+        } catch (err) {
+            this.error = err
         } finally {
-            this.loading = false
+            this.loading = false;
         }
     }
 })
@@ -31,6 +35,7 @@ export const storeSearchLocations = reactive({
     initialStateData() {
         this.data = []
     },
+    error: <any>null,
     async searchLocation(query?: string) {
         if (!query?.trim()) {
             this.initialStateData()
@@ -38,8 +43,9 @@ export const storeSearchLocations = reactive({
         }
         try {
             this.data = await fetchSearchLocation(query)
-        } catch (error) {
-            alert(error)
+        } catch (err) {
+            this.error = err
+            alert(err)
         }
     }
 })

@@ -1,46 +1,45 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeWeather } from '@/store/store';
-import LocationInfo from '@/components/LocationInfo.vue';
 import CurrentWeather from '@/components/CurrentWeather.vue';
+import CurrentWeatherHourly from '@/components/CurrentWeatherHourly.vue';
+import CurrentWeatherDetails from '@/components/CurrentWeatherDetails.vue';
+
 import ForecastWeather from '@/components/ForecastWeather.vue';
-import HourlyForecast from '@/components/HourlyWeather.vue'
 import AirQuality from '@/components/AirQuality.vue';
 import AstroInfo from '@/components/AstroInfo.vue';
 import Alerts from '@/components/Alerts.vue';
-import CurrentWeatherHourly from '@/components/CurrentWeatherHourly.vue';
 
 
 const route = useRoute()
+const storeWeatherError = computed(() => storeWeather.error);
 
-
-onMounted(() => {
+onMounted(async () => {
     const lat = route.query.lat
     const lon = route.query.lon
-
-    if (lat && lon) {
-        storeWeather.changeLocation(`${lat},${lon}`)
-    } else {
-        storeWeather.changeLocation('55.7558,37.6176') // Moscow
-    }
+    const query = lat && lon ? `${lat},${lon}` : '55.7558,37.6176';
+    await storeWeather.changeLocation(query);
 })
 
-watch(() => route.query, (query) => {
+watch(() => route.query, async (query) => {
     if (query.lat && query.lon) {
-        storeWeather.changeLocation(`${query.lat},${query.lon}`)
+        await storeWeather.changeLocation(`${query.lat},${query.lon}`)
     }
 })
-
 </script>
 
 
 <template>
-    <div class="home-wrapper">
+    <div v-if="storeWeatherError" class="error-wrapper flex-column">
+        <h2>Ошибка загрузки данных</h2>
+        <p>{{ storeWeatherError }}</p>
+    </div>
+    <div v-else class="home-wrapper">
         <section class="home-section" style="flex-grow: 2;">
-            <LocationInfo />
             <CurrentWeather />
             <CurrentWeatherHourly />
+            <CurrentWeatherDetails />
             <AirQuality />
             <AstroInfo />
             <Alerts />
