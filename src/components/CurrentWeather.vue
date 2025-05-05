@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { Skeleton } from 'primevue';
 import moment from 'moment';
 import { storeWeather } from '@/store/store';
-import { formatTemp } from '@/utils/formatTemp';
+import { getFormattedTemp } from '@/utils/getFormattedTemp';
 import IconWind from '@/components/icons/IconWind.vue';
 import IconWater from '@/components/icons/IconWater.vue';
 import IconPressure from '@/components/icons/IconPressure.vue';
@@ -24,7 +24,7 @@ const iconSize = "1.5rem";
         <div v-else class="card-content">
             <h3>{{ moment(currentWeather.last_updated, storeWeatherDateFormat).format('dddd, HH:mm') }}</h3>
             <div class="flex-row wrap gap" style="align-items: center;">
-                <h1>{{ formatTemp(storeWeatherIsCelsius, currentWeather.temp_c, currentWeather.temp_f) }}</h1>
+                <h1>{{ getFormattedTemp(storeWeatherIsCelsius, currentWeather.temp_c, currentWeather.temp_f) }}</h1>
 
                 <picture>
                     <source media="(min-width: 900px)"
@@ -35,7 +35,7 @@ const iconSize = "1.5rem";
                 <div class="flex-column">
                     <h2>{{ currentWeather.condition.text }}</h2>
                     <p class="secondary-text-color">
-                        feels like {{ formatTemp(storeWeatherIsCelsius, currentWeather.feelslike_c,
+                        feels like {{ getFormattedTemp(storeWeatherIsCelsius, currentWeather.feelslike_c,
                             currentWeather.feelslike_f) }}
                     </p>
                 </div>

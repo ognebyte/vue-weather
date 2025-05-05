@@ -15,16 +15,16 @@ import Alerts from '@/components/Alerts.vue';
 const route = useRoute()
 const storeWeatherError = computed(() => storeWeather.error);
 
-onMounted(async () => {
+onMounted(() => {
     const lat = route.query.lat
     const lon = route.query.lon
     const query = lat && lon ? `${lat},${lon}` : '55.7558,37.6176';
-    await storeWeather.changeLocation(query);
+    storeWeather.changeLocation(query);
 })
 
-watch(() => route.query, async (query) => {
+watch(() => route.query, (query) => {
     if (query.lat && query.lon) {
-        await storeWeather.changeLocation(`${query.lat},${query.lon}`)
+        storeWeather.changeLocation(`${query.lat},${query.lon}`)
     }
 })
 </script>

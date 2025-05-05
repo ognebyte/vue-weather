@@ -15,7 +15,7 @@
 .dark-mode {
     --primary-background-gradient-color-1: #485563;
     --primary-background-gradient-color-2: #29323c;
-    --card-background-color: color-mix(in srgb, var(--pv-surface-800) 100%, transparent 100%);
+    --card-background-color: color-mix(in srgb, var(--pv-surface-800) 100%, transparent 50%);
     /* --border-color: rgba(255, 255, 255, 0.5); */
     /* --primary-background-gradient-color: linear-gradient(25deg, rgb(118,105,129) 0%, rgb(154,138,157) 50%, rgb(118,109,130) 100%); */
 }

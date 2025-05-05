@@ -4,7 +4,7 @@ import { Button, Divider } from 'primevue';
 import moment from 'moment';
 import { storeWeather } from '@/store/store';
 import type { HourlyForecast } from '@/utils/weatherInterface';
-import { formatTemp } from '@/utils/formatTemp';
+import { getFormattedTemp } from '@/utils/getFormattedTemp';
 import IconSnow from '@/components/icons/IconSnow.vue';
 import IconDroplet from '@/components/icons/IconDroplet.vue';
 
@@ -48,7 +48,7 @@ function isNewDay(time: string) {
                     </p>
                     <img :src="'https:' + hour.condition.icon" :alt="hour.condition.text" />
                     <p class="h4-style">
-                        {{ formatTemp(storeWeatherIsCelsius, hour.temp_c, hour.temp_f) }}
+                        {{ getFormattedTemp(storeWeatherIsCelsius, hour.temp_c, hour.temp_f) }}
                     </p>
                     <span v-if="hour.chance_of_snow || hour.chance_of_rain"
                         class="flex-row secondary-text-color small-text gap-small" style="align-items: center;">

@@ -5,7 +5,7 @@ import { storeWeather } from '@/store/store';
 import IconRain from '@/components/icons/IconRain.vue';
 import IconClouds from '@/components/icons/IconClouds.vue';
 import IconDroplets from '@/components/icons/IconDroplets.vue';
-import { formatTemp } from '@/utils/formatTemp';
+import { getFormattedTemp } from '@/utils/getFormattedTemp';
 
 
 const storeWeatherLoading = computed(() => storeWeather.loading);
@@ -125,7 +125,7 @@ function uvCategory(uv: number) {
                     <p>Dew point</p>
                 </div>
                 <div class="card-bottom">
-                    <p class="h2-style">{{ formatTemp(storeIsCelsius, currentWeather.dewpoint_c,
+                    <p class="h2-style">{{ getFormattedTemp(storeIsCelsius, currentWeather.dewpoint_c,
                         currentWeather.dewpoint_f) }}</p>
                 </div>
             </div>
