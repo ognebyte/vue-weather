@@ -10,10 +10,6 @@ li {
     list-style: none;
 }
 
-.bold-text {
-    font-weight: 700;
-}
-
 h1,
 .h1-style {
     font-size: 3rem;
@@ -40,7 +36,10 @@ h4,
 
 .small-text {
     font-size: 0.875rem;
-    font-weight: 400;
+}
+
+.bold-text {
+    font-weight: 700;
 }
 
 html {
@@ -117,8 +116,13 @@ main {
     align-items: center;
     gap: .25rem;
     color: var(--secondary-text-color);
-    font-size: 0.875rem;
-    font-weight: 400;
+}
+
+.card-bottom {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    gap: 1rem;
 }
 
 .secondary-text-color {
@@ -128,6 +132,7 @@ main {
 .flex-row {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .flex-column {

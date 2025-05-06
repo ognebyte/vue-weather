@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Skeleton } from 'primevue';
 import { storeWeather } from '@/store/store';
 import { getHourlyWeatherFor } from '@/utils/getHourlyWeatherFor';
+import CardWeather from '@/components/CardWeather.vue';
 import HourlyWeather from '@/components/HourlyWeather.vue';
 
 
@@ -17,15 +17,12 @@ const currentWeatherHourly = computed(() => {
 </script>
 
 <template>
-    <div class="card" style="min-height: 200px;">
-        <Skeleton v-if="storeWeatherLoading" height="100%" />
-        <div v-else class="card-content">
-            <div class="card-label">
-                <i class="pi pi-clock"></i>
-                <p>Hourly weather</p>
-            </div>
-
+    <CardWeather :loading="storeWeatherLoading" label="Hourly weather" minHeight="15rem">
+        <template v-slot:icon>
+            <i class="pi pi-clock"></i>
+        </template>
+        <template v-slot:addition>
             <HourlyWeather :hourlyForecast="currentWeatherHourly" />
-        </div>
-    </div>
+        </template>
+    </CardWeather>
 </template>

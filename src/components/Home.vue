@@ -5,11 +5,9 @@ import { storeWeather } from '@/store/store';
 import CurrentWeather from '@/components/CurrentWeather.vue';
 import CurrentWeatherHourly from '@/components/CurrentWeatherHourly.vue';
 import CurrentWeatherDetails from '@/components/CurrentWeatherDetails.vue';
-
-import ForecastWeather from '@/components/ForecastWeather.vue';
 import AirQuality from '@/components/AirQuality.vue';
-import AstroInfo from '@/components/AstroInfo.vue';
 import Alerts from '@/components/Alerts.vue';
+import ForecastWeather from '@/components/ForecastWeather.vue';
 
 
 const route = useRoute()
@@ -41,7 +39,6 @@ watch(() => route.query, (query) => {
             <CurrentWeatherHourly />
             <CurrentWeatherDetails />
             <AirQuality />
-            <AstroInfo />
             <Alerts />
         </section>
         <section class="home-section">

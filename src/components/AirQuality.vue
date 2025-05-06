@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Divider, Knob, Skeleton } from 'primevue'
+import { Divider, Knob } from 'primevue'
 import { storeWeather } from '@/store/store'
-import IconFaceMask from '@/components/icons/IconFaceMask.vue'
 import { getFormattedAqi } from '@/utils/getFormattedAqi'
+import CardWeather from '@/components/CardWeather.vue'
+import IconFaceMask from '@/components/icons/IconFaceMask.vue'
 
 
 const storeWeatherLoading = computed(() => storeWeather.loading)
@@ -62,19 +63,16 @@ const primaryPollutant = computed(() => {
 </script>
 
 <template>
-    <div class="card" style="min-height: 490px;">
-        <Skeleton v-if="storeWeatherLoading" height="100%" />
-        <div v-else class="card-content">
-            <div class="card-label">
-                <IconFaceMask size="1rem" />
-                <p>AQI</p>
-            </div>
-
+    <CardWeather :loading="storeWeatherLoading" label="AQI" minHeight="500px">
+        <template v-slot:icon>
+            <IconFaceMask size="1rem" />
+        </template>
+        <template v-slot:addition>
             <div class="flex-column gap-large">
-                <div class="flex-row gap-large" style="align-items: center;">
+                <div class="flex-row gap-large">
                     <p class="h1-style">{{ primaryPollutant.formattedAqi.aqi }}</p>
                     <div class="flex-column gap">
-                        <p class="h3-style">{{ primaryPollutant.formattedAqi.category.name }}</p>
+                        <p class="h3-style bold-text">{{ primaryPollutant.formattedAqi.category.name }}</p>
                         <p class="h4-style"><span class="secondary-text-color">Primary Pollutant:</span> {{
                             primaryPollutant.name }}</p>
                     </div>
@@ -92,7 +90,7 @@ const primaryPollutant = computed(() => {
             <ul class="pollutants">
                 <li v-for="(pollutant) in allPollutants" :key="pollutant.name">
                     <Divider />
-                    <div class="flex-row" style="align-items: center;">
+                    <div class="flex-row">
                         <div class="flex-row gap-large">
                             <Knob v-model="pollutant.formattedAqi.aqi" :max="pollutant.formattedAqi.aqiMax"
                                 :valueColor="pollutant.formattedAqi.category.color" :size="72" :strokeWidth="10"
@@ -100,11 +98,12 @@ const primaryPollutant = computed(() => {
                                 :pt="{ value: { style: { strokeLinecap: 'round' } }, range: { style: { strokeLinecap: 'round' } } }">
                             </Knob>
                             <div class="flex-column gap-small">
-                                <p class="h4-style">
+                                <p class="h4-style bold-text">
                                     {{ pollutant.formattedAqi.category.name }}
                                 </p>
                                 <p>
-                                    {{ pollutant.name }} <span class="secondary-text-color">({{ pollutant.desc }})</span>
+                                    {{ pollutant.name }} <span class="secondary-text-color">({{ pollutant.desc
+                                        }})</span>
                                 </p>
                                 <p class="small-text secondary-text-color">
                                     {{ pollutant.value }} {{ pollutant.format }}
@@ -114,8 +113,8 @@ const primaryPollutant = computed(() => {
                     </div>
                 </li>
             </ul>
-        </div>
-    </div>
+        </template>
+    </CardWeather>
 </template>
 
 <style scoped>
@@ -144,12 +143,13 @@ const primaryPollutant = computed(() => {
 
 .pollutants {
     display: grid;
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
+    column-gap: 1rem;
 }
 
 @media (min-width: 600px) {
     .pollutants {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 }
 </style>

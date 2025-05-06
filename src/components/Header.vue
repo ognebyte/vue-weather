@@ -54,17 +54,18 @@ onMounted(() => {
 
 <template>
     <div class="header-wrapper">
-        <div class="flex-row" style="flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem;">
-            <div class="header-content" style="align-items: center; gap: 2rem;">
-                <span class="secondary-text-color">
-                    <IconLogo />
-                </span>
-                <span v-if="!storeWeatherError" class="secondary-text-color" icon="pi pi-map-marker">
+        <div class="flex-row wrap gap-large" style="justify-content: space-between;">
+            <div class="flex-row gap" style="gap: 1.5rem;">
+                <IconLogo class="secondary-text-color" />
+                <div v-if="!storeWeatherError" class="secondary-text-color" icon="pi pi-map-marker">
                     <Skeleton v-if="storeWeatherLoading" width="200px"></Skeleton>
-                    <span v-else>{{ currentLocation.name }}, {{ currentLocation.country }}</span>
-                </span>
+                    <p v-else class="flex-row gap">
+                        <i class="pi pi-map-marker"></i>
+                        <span>{{ currentLocation.name }}, {{ currentLocation.country }}</span>
+                    </p>
+                </div>
             </div>
-            <div class="header-content">
+            <div class="flex-row gap">
                 <SearchLocation />
                 <SelectButton v-model:model-value="storeWeatherIsCelsius" option-value="isCelsius"
                     :options="tempOptions" option-label="name" :allow-empty="false" @change="toggleTempType()" />
@@ -74,11 +75,3 @@ onMounted(() => {
         </div>
     </div>
 </template>
-
-<style scoped>
-.header-content {
-    display: flex;
-    flex-direction: row;
-    gap: .5rem;
-}
-</style>

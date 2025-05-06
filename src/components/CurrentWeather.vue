@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Skeleton } from 'primevue';
 import moment from 'moment';
 import { storeWeather } from '@/store/store';
 import { getFormattedTemp } from '@/utils/getFormattedTemp';
+import CardWeather from '@/components/CardWeather.vue';
+
 import IconWind from '@/components/icons/IconWind.vue';
 import IconWater from '@/components/icons/IconWater.vue';
 import IconPressure from '@/components/icons/IconPressure.vue';
@@ -11,7 +12,6 @@ import IconDirection from '@/components/icons/IconDirection.vue';
 
 
 const currentWeather = computed(() => storeWeather.data.current);
-const currentLocation = computed(() => storeWeather.data.location);
 const storeWeatherIsCelsius = computed(() => storeWeather.isCelsius);
 const storeWeatherLoading = computed(() => storeWeather.loading);
 const storeWeatherDateFormat = computed(() => storeWeather.dateFormat);
@@ -19,11 +19,10 @@ const iconSize = "1.5rem";
 </script>
 
 <template>
-    <div class="card" style="min-height: 200px;">
-        <Skeleton v-if="storeWeatherLoading" height="100%" />
-        <div v-else class="card-content">
-            <h3>{{ moment(currentWeather.last_updated, storeWeatherDateFormat).format('dddd, HH:mm') }}</h3>
-            <div class="flex-row wrap gap" style="align-items: center;">
+    <CardWeather :loading="storeWeatherLoading" min-height="220px">
+        <template v-slot:addition>
+            <h3>{{ moment(currentWeather.last_updated, storeWeatherDateFormat).format('dddd, HH:mm (UTCZ)') }}</h3>
+            <div class="flex-row wrap gap">
                 <h1>{{ getFormattedTemp(storeWeatherIsCelsius, currentWeather.temp_c, currentWeather.temp_f) }}</h1>
 
                 <picture>
@@ -41,7 +40,7 @@ const iconSize = "1.5rem";
                 </div>
             </div>
 
-            <ul class="ul-list flex-row wrap gap-large" style="align-items: center;">
+            <ul class="ul-list flex-row wrap gap-large">
                 <li>
                     <IconWind :size="iconSize" />
                     {{ currentWeather.wind_kph }} kph / {{ currentWeather.wind_mph }} mph
@@ -60,6 +59,6 @@ const iconSize = "1.5rem";
             <p class="small-text secondary-text-color" style="align-self: flex-end;">
                 Updated: {{ moment(currentWeather.last_updated, storeWeatherDateFormat).format('MMM D, HH:mm') }}
             </p>
-        </div>
-    </div>
+        </template>
+    </CardWeather>
 </template>

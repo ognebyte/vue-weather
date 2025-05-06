@@ -40,7 +40,7 @@ function isNewDay(time: string) {
         <Button class="scroll-btn" icon="pi pi-chevron-left" severity="secondary" @click="scroll('left')" />
 
         <div class="hourly-scroll" ref="scrollContainer">
-            <div v-for="(hour, index) in hourlyForecast" :key="hour.time" class="flex-row" style="flex-shrink: 0;">
+            <div v-for="(hour, index) in hourlyForecast" :key="hour.time" class="flex-row" style="flex-shrink: 0; align-items: flex-start;">
                 <Divider v-if="index !== 0 && isNewDay(hour.time)" layout="vertical" />
                 <div class="flex-column gap-small" style="align-items: center;">
                     <p class="secondary-text-color">
@@ -51,7 +51,7 @@ function isNewDay(time: string) {
                         {{ getFormattedTemp(storeWeatherIsCelsius, hour.temp_c, hour.temp_f) }}
                     </p>
                     <span v-if="hour.chance_of_snow || hour.chance_of_rain"
-                        class="flex-row secondary-text-color small-text gap-small" style="align-items: center;">
+                        class="flex-row secondary-text-color small-text gap-small">
                         <IconSnow v-if="hour.chance_of_snow" size="1rem" />
                         <IconDroplet v-else size="1rem" />
                         {{ hour.chance_of_snow ? hour.chance_of_snow : hour.chance_of_rain }}%
@@ -74,7 +74,9 @@ function isNewDay(time: string) {
 .hourly-scroll {
     flex: 1;
     display: flex;
-    padding: 0.5rem 1rem;
+    padding-top: 0.5rem;
+    padding-inline: 0.5rem;
+    padding-bottom: 1rem;
     gap: 0.5rem;
     scroll-behavior: smooth;
     overflow-x: auto;

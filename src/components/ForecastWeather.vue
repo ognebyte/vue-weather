@@ -15,13 +15,13 @@ const storeWeatherLoading = computed(() => storeWeather.loading);
     <div v-for="i in 7" class="card">
         <Skeleton v-if="storeWeatherLoading" height="100%"></Skeleton>
         <div v-else class="card-content">
-            <div class="flex-row" style="justify-content: space-between; align-items: center;">
+            <div class="flex-row" style="justify-content: space-between;">
                 <h3>{{ moment(forecastDay[i-1].date, 'YYYY-MM-DD').format('dddd') }}</h3>
                 <p>{{ moment(forecastDay[i-1].date, 'YYYY-MM-DD').format('MMMM D') }}</p>
             </div>
             <div class="flex-row">
                 <img width="64" height="64" :src="'https:' + forecastDay[i-1].day.condition.icon" :alt="forecastDay[i-1].day.condition.text">
-                <div class="flex-column" style="gap: 0.5rem;">
+                <div class="flex-column gap">
                     <p>{{ forecastDay[i-1].day.condition.text }}</p>
                     <h3>{{ getFormattedTemp(storeWeatherIsCelsius, forecastDay[i-1].day.avgtemp_c, forecastDay[i-1].day.avgtemp_f) }}</h3>
                 </div>
