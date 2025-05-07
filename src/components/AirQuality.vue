@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { Divider, Knob } from 'primevue'
 import { storeWeather } from '@/store/store'
 import { getFormattedAqi } from '@/utils/getFormattedAqi'
 import CardWeather from '@/components/CardWeather.vue'
 import IconFaceMask from '@/components/icons/IconFaceMask.vue'
+import moment from 'moment'
 
 
 const storeWeatherLoading = computed(() => storeWeather.loading)
@@ -60,23 +61,35 @@ const primaryPollutant = computed(() => {
     const max = arr.reduce((max, current) => current.formattedAqi.aqi > max.formattedAqi.aqi ? current : max);
     return max;
 })
+
+const expanded = ref(false)
+
+function toggleExpanded() {
+    expanded.value = !expanded.value
+}
 </script>
 
 <template>
-    <CardWeather :loading="storeWeatherLoading" label="AQI" minHeight="500px">
+    <CardWeather :loading="storeWeatherLoading"
+        :label="`AQI (${moment(storeWeather.data.current.last_updated).format('dddd, D MMM')})`" minHeight="12rem">
         <template v-slot:icon>
             <IconFaceMask size="1rem" />
         </template>
         <template v-slot:addition>
             <div class="flex-column gap-large">
-                <div class="flex-row gap-large">
+                <!-- Заголовок с кликом -->
+                <div class="flex-row gap-large" style="cursor: pointer">
                     <p class="h1-style">{{ primaryPollutant.formattedAqi.aqi }}</p>
                     <div class="flex-column gap">
                         <p class="h3-style bold-text">{{ primaryPollutant.formattedAqi.category.name }}</p>
-                        <p class="h4-style"><span class="secondary-text-color">Primary Pollutant:</span> {{
-                            primaryPollutant.name }}</p>
+                        <p class="h4-style">
+                            <span class="secondary-text-color">Primary Pollutant:</span>
+                            {{ primaryPollutant.name }}
+                        </p>
                     </div>
                 </div>
+
+                <!-- Индикатор -->
                 <div class="aqi-wrapper">
                     <span class="aqi-progress" :style="{
                         width: `${primaryPollutant.formattedAqi.aqi * 100 / primaryPollutant.formattedAqi.aqiMax}%`,
@@ -85,34 +98,49 @@ const primaryPollutant = computed(() => {
                     </span>
                     <span class="aqi-background"></span>
                 </div>
-            </div>
 
-            <ul class="pollutants">
-                <li v-for="(pollutant) in allPollutants" :key="pollutant.name">
+                <div class="flex-row gap" @click="toggleExpanded" style="cursor: pointer;">
                     <Divider />
-                    <div class="flex-row">
-                        <div class="flex-row gap-large">
-                            <Knob v-model="pollutant.formattedAqi.aqi" :max="pollutant.formattedAqi.aqiMax"
-                                :valueColor="pollutant.formattedAqi.category.color" :size="72" :strokeWidth="10"
-                                readonly style="align-items: center; display: flex;"
-                                :pt="{ value: { style: { strokeLinecap: 'round' } }, range: { style: { strokeLinecap: 'round' } } }">
-                            </Knob>
-                            <div class="flex-column gap-small">
-                                <p class="h4-style bold-text">
-                                    {{ pollutant.formattedAqi.category.name }}
-                                </p>
-                                <p>
-                                    {{ pollutant.name }} <span class="secondary-text-color">({{ pollutant.desc
-                                        }})</span>
-                                </p>
-                                <p class="small-text secondary-text-color">
-                                    {{ pollutant.value }} {{ pollutant.format }}
-                                </p>
-                            </div>
-                        </div>
+                    <p class="secondary-text-color" style="flex-shrink: 0;">
+                        {{ expanded ? 'Hide all' : 'Show all' }}
+                    </p>
+                    <Divider />
+                </div>
+
+                <!-- Расширяемый список -->
+                <transition name="fade">
+                    <div v-if="expanded">
+                        <p class="h4-style secondary-text-color">All pollutants</p>
+                        <ul class="pollutants">
+                            <li v-for="(pollutant) in allPollutants" :key="pollutant.name">
+                                <Divider />
+                                <div class="flex-row">
+                                    <div class="flex-row gap-large">
+                                        <Knob v-model="pollutant.formattedAqi.aqi" :max="pollutant.formattedAqi.aqiMax"
+                                            :valueColor="pollutant.formattedAqi.category.color" :size="72" :strokeWidth="10"
+                                            readonly style="align-items: center; display: flex;" :pt="{
+                                                value: { style: { strokeLinecap: 'round' } },
+                                                range: { style: { strokeLinecap: 'round' } }
+                                            }" />
+                                        <div class="flex-column gap-small">
+                                            <p class="h4-style bold-text">
+                                                {{ pollutant.formattedAqi.category.name }}
+                                            </p>
+                                            <p>
+                                                {{ pollutant.name }}
+                                                <span class="secondary-text-color">({{ pollutant.desc }})</span>
+                                            </p>
+                                            <p class="small-text secondary-text-color">
+                                                {{ pollutant.value }} {{ pollutant.format }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                </li>
-            </ul>
+                </transition>
+            </div>
         </template>
     </CardWeather>
 </template>
@@ -145,6 +173,16 @@ const primaryPollutant = computed(() => {
     display: grid;
     grid-template-columns: 1fr;
     column-gap: 1rem;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 
 @media (min-width: 600px) {

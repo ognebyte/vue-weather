@@ -1,40 +1,54 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Skeleton } from 'primevue';
 import moment from 'moment';
 import { storeWeather } from '@/store/store';
+import type { ForecastDay } from '@/utils/weatherInterface';
 import { getFormattedTemp } from '@/utils/getFormattedTemp';
+import IconWind from '@/components/icons/IconWind.vue';
+import IconWater from '@/components/icons/IconWater.vue';
+import IconRain from '@/components/icons/IconRain.vue';
 
 
-const forecastDay = computed(() => storeWeather.data.forecast.forecastday);
+defineProps<{
+    forecastDay: ForecastDay
+}>()
+
+
 const storeWeatherIsCelsius = computed(() => storeWeather.isCelsius);
-const storeWeatherLoading = computed(() => storeWeather.loading);
+const iconSize = "1.5rem";
 </script>
 
 <template>
-    <div v-for="i in 7" class="card">
-        <Skeleton v-if="storeWeatherLoading" height="100%"></Skeleton>
-        <div v-else class="card-content">
-            <div class="flex-row" style="justify-content: space-between;">
-                <h3>{{ moment(forecastDay[i-1].date, 'YYYY-MM-DD').format('dddd') }}</h3>
-                <p>{{ moment(forecastDay[i-1].date, 'YYYY-MM-DD').format('MMMM D') }}</p>
-            </div>
-            <div class="flex-row">
-                <img width="64" height="64" :src="'https:' + forecastDay[i-1].day.condition.icon" :alt="forecastDay[i-1].day.condition.text">
-                <div class="flex-column gap">
-                    <p>{{ forecastDay[i-1].day.condition.text }}</p>
-                    <h3>{{ getFormattedTemp(storeWeatherIsCelsius, forecastDay[i-1].day.avgtemp_c, forecastDay[i-1].day.avgtemp_f) }}</h3>
-                </div>
-            </div>
-            <ul>
-                <li>🌡 Max: {{ getFormattedTemp(storeWeatherIsCelsius, forecastDay[i-1].day.maxtemp_c, forecastDay[i-1].day.maxtemp_f) }}</li>
-                <li>🌡 Min: {{ getFormattedTemp(storeWeatherIsCelsius, forecastDay[i-1].day.mintemp_c, forecastDay[i-1].day.mintemp_f) }}</li>
-                <li>💦 Humidity: {{ forecastDay[i-1].day.avghumidity }}%</li>
-                <li>💧 Precip: {{ forecastDay[i-1].day.totalprecip_mm }} мм</li>
-                <li>🌧 Chance of rain: {{ forecastDay[i-1].day.daily_chance_of_rain }}%</li>
-            </ul>
+    <div class="flex-row secondary-text-color" style="justify-content: space-between;">
+        <h3>{{ moment(forecastDay.date, 'YYYY-MM-DD').format('dddd') }}</h3>
+        <p>{{ moment(forecastDay.date, 'YYYY-MM-DD').format('MMMM D') }}</p>
+    </div>
+    <div class="flex-row gap wrap">
+        <img width="64" height="64" :src="'https:' + forecastDay.day.condition.icon.replace('64x64', '128x128')"
+            :alt="forecastDay.day.condition.text">
+        <div class="flex-column gap">
+            <p>{{ forecastDay.day.condition.text }}</p>
+            <p class="h3-style bold-text">
+                {{ getFormattedTemp(storeWeatherIsCelsius, forecastDay.day.maxtemp_c, forecastDay.day.maxtemp_f) }}
+                <span class="small-text secondary-text-color">
+                    / {{ getFormattedTemp(storeWeatherIsCelsius, forecastDay.day.mintemp_c, forecastDay.day.mintemp_f)
+                    }}
+                </span>
+            </p>
         </div>
     </div>
+    <ul class="ul-list flex-column gap-large">
+        <li>
+            <IconWind :size="iconSize" />
+            {{ forecastDay.day.maxwind_kph }} kph / {{ forecastDay.day.maxwind_mph }} mph
+        </li>
+        <li>
+            <IconWater :size="iconSize" />
+            Humidity: {{ forecastDay.day.avghumidity }}%
+        </li>
+        <li>
+            <IconRain :size="iconSize" />
+            Chance of rain: {{ forecastDay.day.daily_chance_of_rain }}%
+        </li>
+    </ul>
 </template>
-
-<style scoped></style>

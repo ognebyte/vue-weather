@@ -52,6 +52,29 @@ const moonIconSize = <string>"4rem"
 </script>
 
 <template>
+    <CardWeather :loading="loading" label="Lunar phase" :min-height="minHeight" style="grid-column: 2 span;">
+        <template v-slot:icon>
+            <i class="pi pi-circle"></i>
+        </template>
+        <template v-slot:addition>
+            <CardWeatherBottom>
+                <template v-slot:addition>
+                    <div class="flex-row gap">
+                        <component :is="moonPhaseIcon"
+                            style="color: var(--pv-surface-950); transform: rotate(-20deg);" />
+                        <div class="flex-column gap">
+                            <p class="h3-style bold-text">{{ astro.moon_phase }}</p>
+                            <div class="flex-row gap wrap">
+                                <span class="secondary-text-color">Moon illumination:</span>
+                                <p class="bold-text">{{ astro.moon_illumination }}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </CardWeatherBottom>
+        </template>
+    </CardWeather>
+    
     <CardWeather :loading="loading" label="Sun" :min-height="minHeight" style="grid-column: 2 span;">
         <template v-slot:icon>
             <i class="pi pi-sun"></i>
@@ -62,13 +85,13 @@ const moonIconSize = <string>"4rem"
                     <div class="flex-row">
                         <div class="flex-column gap" style="flex: 1; align-items: center;">
                             <p class="secondary-text-color">Sunrise</p>
-                            <IconSunrise />
+                            <IconSunrise size="2rem" class="secondary-text-color" />
                             <p class="h3-style bold-text">{{ moment(astro.sunrise, 'hh:mm A').format('HH:mm') }}</p>
                         </div>
                         <Divider layout="vertical" />
                         <div class="flex-column gap" style="flex: 1; align-items: center;">
                             <p class="secondary-text-color">Sunset</p>
-                            <IconSunset />
+                            <IconSunset size="2rem" class="secondary-text-color" />
                             <p class="h3-style bold-text">{{ moment(astro.sunset, 'hh:mm A').format('HH:mm') }}</p>
                         </div>
                     </div>
@@ -87,37 +110,14 @@ const moonIconSize = <string>"4rem"
                     <div class="flex-row">
                         <div class="flex-column gap" style="flex: 1; align-items: center;">
                             <p class="secondary-text-color">Moonrise</p>
-                            <IconMoonrise />
+                            <IconMoonrise size="2rem" class="secondary-text-color" />
                             <p class="h3-style bold-text">{{ moment(astro.moonrise, 'hh:mm A').format('HH:mm') }}</p>
                         </div>
                         <Divider layout="vertical" />
                         <div class="flex-column gap" style="flex: 1; align-items: center;">
                             <p class="secondary-text-color">Moonset</p>
-                            <IconMoonset />
+                            <IconMoonset size="2rem"class="secondary-text-color" />
                             <p class="h3-style bold-text">{{ moment(astro.moonset, 'hh:mm A').format('HH:mm') }}</p>
-                        </div>
-                    </div>
-                </template>
-            </CardWeatherBottom>
-        </template>
-    </CardWeather>
-
-    <CardWeather :loading="loading" label="Lunar phase" :min-height="minHeight" style="grid-column: 2 span;">
-        <template v-slot:icon>
-            <i class="pi pi-circle"></i>
-        </template>
-        <template v-slot:addition>
-            <CardWeatherBottom>
-                <template v-slot:addition>
-                    <div class="flex-row gap">
-                        <component :is="moonPhaseIcon"
-                            style="color: var(--pv-surface-950); transform: rotate(-20deg);" />
-                        <div class="flex-column gap">
-                            <p class="h3-style bold-text">{{ astro.moon_phase }}</p>
-                            <div class="h4-style flex-row gap">
-                                <span class="secondary-text-color">Moon illumination:</span>
-                                <p class="bold-text">{{ astro.moon_illumination }}%</p>
-                            </div>
                         </div>
                     </div>
                 </template>

@@ -1,71 +1,46 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, type LocationQuery } from 'vue-router';
 import { storeWeather } from '@/store/store';
-import CurrentWeather from '@/components/CurrentWeather.vue';
-import CurrentWeatherHourly from '@/components/CurrentWeatherHourly.vue';
-import CurrentWeatherDetails from '@/components/CurrentWeatherDetails.vue';
+import ForecastDays from '@/components/ForecastDays.vue';
+import WeatherHourly from '@/components/WeatherHourly.vue';
+import WeatherDetails from '@/components/WeatherDetails.vue';
 import AirQuality from '@/components/AirQuality.vue';
 import Alerts from '@/components/Alerts.vue';
-import ForecastWeather from '@/components/ForecastWeather.vue';
 
 
 const route = useRoute()
 const storeWeatherError = computed(() => storeWeather.error);
+const initialLocation: string = '55.7558,37.6176';
+
+function changeLocation(routeQuery: LocationQuery) {
+    const day = !isNaN(Number(routeQuery.day)) ? Number(routeQuery.day) : 0;
+    const lat = routeQuery.lat
+    const lon = routeQuery.lon
+    const query = lat && lon ? `${lat},${lon}` : initialLocation;
+    storeWeather.changeLocation(query, day);
+}
 
 onMounted(() => {
-    const lat = route.query.lat
-    const lon = route.query.lon
-    const query = lat && lon ? `${lat},${lon}` : '55.7558,37.6176';
-    storeWeather.changeLocation(query);
+    changeLocation(route.query)
 })
 
 watch(() => route.query, (query) => {
-    if (query.lat && query.lon) {
-        storeWeather.changeLocation(`${query.lat},${query.lon}`)
-    }
-})
+    changeLocation(query)
+}, { immediate: false })
 </script>
 
 
 <template>
-    <div v-if="storeWeatherError" class="error-wrapper flex-column">
+    <section v-if="storeWeatherError" class="error-wrapper flex-column">
         <h2>Ошибка загрузки данных</h2>
         <p>{{ storeWeatherError }}</p>
-    </div>
-    <div v-else class="home-wrapper">
-        <section class="home-section" style="flex-grow: 2;">
-            <CurrentWeather />
-            <CurrentWeatherHourly />
-            <CurrentWeatherDetails />
-            <AirQuality />
-            <Alerts />
-        </section>
-        <section class="home-section">
-            <ForecastWeather />
-        </section>
-    </div>
+    </section>
+    <section v-else class="flex-column gap">
+        <ForecastDays />
+        <WeatherHourly />
+        <WeatherDetails />
+        <AirQuality />
+        <Alerts />
+    </section>
 </template>
-
-<style scoped>
-.home-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: .5rem;
-}
-
-.home-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    overflow: hidden;
-}
-
-@media (min-width: 900px) {
-    .home-wrapper {
-        flex-direction: row;
-    }
-}
-</style>

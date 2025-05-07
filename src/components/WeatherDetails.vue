@@ -15,10 +15,10 @@ import IconDroplets from '@/components/icons/IconDroplets.vue';
 
 const storeWeatherLoading = computed(() => storeWeather.loading);
 const storeIsCelsius = computed(() => storeWeather.isCelsius);
-const currentWeather = computed(() => storeWeather.data.current);
+const currentWeather = computed(() => storeWeather.currentHour);
 const currentAstro = computed(() => {
-    if (storeWeather.data.forecast.forecastday.length == 0) return initialStateAstro;
-    return storeWeather.data.forecast.forecastday[0].astro;
+    if (!storeWeather.current) return initialStateAstro;
+    return storeWeather.current.astro;
 });
 const cards = computed(() => {
     const weather = currentWeather.value;
@@ -52,7 +52,6 @@ const minHeight = <string>"10rem";
 
 <template>
     <div class="details-wrapper">
-        <AstroInfo :loading="storeWeatherLoading" :astro="currentAstro" :min-height="minHeight" />
         <UvIndex :loading="storeWeatherLoading" :uv="currentWeather.uv" :min-height="minHeight" />
 
         <CardWeather v-for="card in cards" :loading="storeWeatherLoading" :label="card.label" :min-height="minHeight">
@@ -63,6 +62,8 @@ const minHeight = <string>"10rem";
                 <CardWeatherBottom :desc="card.desc" />
             </template>
         </CardWeather>
+
+        <AstroInfo :loading="storeWeatherLoading" :astro="currentAstro" :min-height="minHeight" />
     </div>
 </template>
 
@@ -76,6 +77,18 @@ const minHeight = <string>"10rem";
 @media (min-width: 600px) {
     .details-wrapper {
         grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 900px) {
+    .details-wrapper {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .details-wrapper {
+        grid-template-columns: repeat(8, 1fr);
     }
 }
 </style>

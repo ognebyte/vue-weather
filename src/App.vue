@@ -34,4 +34,8 @@ onMounted(() => {
     <main>
         <RouterView />
     </main>
+
+    <footer>
+        
+    </footer>
 </template>

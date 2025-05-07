@@ -7,12 +7,13 @@ import HourlyWeather from '@/components/HourlyWeather.vue';
 
 
 const storeWeatherLoading = computed(() => storeWeather.loading);
-const currentLocation = computed(() => storeWeather.data.location);
 const currentWeatherHourly = computed(() => {
     if (storeWeather.data.forecast.forecastday.length == 0) return [];
+    const currentTime = storeWeather.currentHour.time;
+    const dayIndex = storeWeather.prevDayIndex;
     const days = 2;
-    const forecastDays = storeWeather.data.forecast.forecastday.slice(0, days);
-    return getHourlyWeatherFor(currentLocation.value.localtime, forecastDays, days);
+    const forecastDays = storeWeather.data.forecast.forecastday.slice(dayIndex, dayIndex + days);
+    return getHourlyWeatherFor(currentTime, forecastDays, days, dayIndex);
 });
 </script>
 

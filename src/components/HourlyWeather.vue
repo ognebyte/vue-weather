@@ -16,6 +16,7 @@ defineProps<{
 const scrollContainer = ref<HTMLElement | null>(null);
 const storeWeatherDateFormat = computed(() => storeWeather.dateFormat);
 const storeWeatherIsCelsius = computed(() => storeWeather.isCelsius);
+const storeWeatherCurrentHour = computed(() => storeWeather.currentHour);
 
 
 function scroll(direction: 'left' | 'right') {
@@ -27,8 +28,13 @@ function scroll(direction: 'left' | 'right') {
 
 function formatTime(time: string) {
     const m = moment(time, storeWeatherDateFormat.value);
-    return m.format('HH:mm') === '00:00' ? m.format('ddd, HH:mm') : m.format('HH:mm');
-};
+    const current = moment(storeWeatherCurrentHour.value.time, storeWeatherDateFormat.value);
+
+    if (m.isSame(current, 'hour')) return 'Now';
+    return m.format('HH:mm') === '00:00'
+        ? m.format('ddd, HH:mm')
+        : m.format('HH:mm');
+}
 
 function isNewDay(time: string) {
     return moment(time, storeWeatherDateFormat.value).format('HH:mm') === '00:00';
@@ -40,7 +46,8 @@ function isNewDay(time: string) {
         <Button class="scroll-btn" icon="pi pi-chevron-left" severity="secondary" @click="scroll('left')" />
 
         <div class="hourly-scroll" ref="scrollContainer">
-            <div v-for="(hour, index) in hourlyForecast" :key="hour.time" class="flex-row" style="flex-shrink: 0; align-items: flex-start;">
+            <div v-for="(hour, index) in hourlyForecast" :key="hour.time" class="flex-row"
+                style="flex-shrink: 0; align-items: flex-start;">
                 <Divider v-if="index !== 0 && isNewDay(hour.time)" layout="vertical" />
                 <div class="flex-column gap-small" style="align-items: center;">
                     <p class="secondary-text-color">
