@@ -9,7 +9,12 @@ const SEARCH_URL: string = `${API_URL}/search.json?key=${API_KEY}&q=`
 
 
 async function fetchURLq(URL: string, query: string) {
-    const response = await fetch(URL + query)
+    const response = await fetch(URL + query, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
     return response.json()
 }

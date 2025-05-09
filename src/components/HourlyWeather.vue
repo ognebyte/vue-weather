@@ -6,7 +6,7 @@ import { storeWeather } from '@/store/store';
 import type { HourlyForecast } from '@/utils/weatherInterface';
 import { getFormattedTemp } from '@/utils/getFormattedTemp';
 import IconSnow from '@/components/icons/IconSnow.vue';
-import IconDroplet from '@/components/icons/IconDroplet.vue';
+import IconDroplets from '@/components/icons/IconDroplets.vue';
 
 
 defineProps<{
@@ -16,6 +16,7 @@ defineProps<{
 const scrollContainer = ref<HTMLElement | null>(null);
 const storeWeatherDateFormat = computed(() => storeWeather.dateFormat);
 const storeWeatherIsCelsius = computed(() => storeWeather.isCelsius);
+const storeWeatherPrevDayIndex = computed(() => storeWeather.prevDayIndex);
 const storeWeatherCurrentHour = computed(() => storeWeather.currentHour);
 
 
@@ -30,7 +31,8 @@ function formatTime(time: string) {
     const m = moment(time, storeWeatherDateFormat.value);
     const current = moment(storeWeatherCurrentHour.value.time, storeWeatherDateFormat.value);
 
-    if (m.isSame(current, 'hour')) return 'Now';
+
+    if (storeWeatherPrevDayIndex.value === 0 && m.isSame(current)) return 'Now';
     return m.format('HH:mm') === '00:00'
         ? m.format('ddd, HH:mm')
         : m.format('HH:mm');
@@ -53,14 +55,15 @@ function isNewDay(time: string) {
                     <p class="secondary-text-color">
                         {{ formatTime(hour.time) }}
                     </p>
-                    <img :src="'https:' + hour.condition.icon" :alt="hour.condition.text" />
+                    <img width="64" height="64" :src="'https:' + hour.condition.icon.replace('64x64', '128x128')"
+                        :alt="hour.condition.text" />
                     <p class="h4-style">
                         {{ getFormattedTemp(storeWeatherIsCelsius, hour.temp_c, hour.temp_f) }}
                     </p>
                     <span v-if="hour.chance_of_snow || hour.chance_of_rain"
                         class="flex-row secondary-text-color small-text gap-small">
                         <IconSnow v-if="hour.chance_of_snow" size="1rem" />
-                        <IconDroplet v-else size="1rem" />
+                        <IconDroplets v-else size="1rem" />
                         {{ hour.chance_of_snow ? hour.chance_of_snow : hour.chance_of_rain }}%
                     </span>
                 </div>

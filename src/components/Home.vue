@@ -3,6 +3,7 @@ import { computed, onMounted, watch } from 'vue';
 import { useRoute, type LocationQuery } from 'vue-router';
 import { storeWeather } from '@/store/store';
 import ForecastDays from '@/components/ForecastDays.vue';
+import WeatherCurrent from '@/components/WeatherCurrent.vue';
 import WeatherHourly from '@/components/WeatherHourly.vue';
 import WeatherDetails from '@/components/WeatherDetails.vue';
 import AirQuality from '@/components/AirQuality.vue';
@@ -38,6 +39,7 @@ watch(() => route.query, (query) => {
     </section>
     <section v-else class="flex-column gap">
         <ForecastDays />
+        <WeatherCurrent />
         <WeatherHourly />
         <WeatherDetails />
         <AirQuality />

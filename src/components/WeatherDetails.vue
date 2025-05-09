@@ -3,14 +3,14 @@ import { computed, h } from 'vue';
 import { storeWeather } from '@/store/store';
 import { initialStateAstro } from '@/utils/weatherInititalStates';
 import { getFormattedTemp } from '@/utils/getFormattedTemp';
-import AstroInfo from '@/components/AstroInfo.vue';
 import UvIndex from '@/components/UvIndex.vue';
+import AstroInfo from '@/components/AstroInfo.vue';
 import CardWeather from '@/components/CardWeather.vue';
 import CardWeatherBottom from '@/components/CardWeatherBottom.vue';
 
 import IconRain from '@/components/icons/IconRain.vue';
 import IconClouds from '@/components/icons/IconClouds.vue';
-import IconDroplets from '@/components/icons/IconDroplets.vue';
+import IconDroplet from '@/components/icons/IconDroplet.vue';
 
 
 const storeWeatherLoading = computed(() => storeWeather.loading);
@@ -40,7 +40,7 @@ const cards = computed(() => {
         },
         {
             label: 'Dew point',
-            icon: h(IconDroplets, { size: iconSize }),
+            icon: h(IconDroplet, { size: iconSize }),
             desc: getFormattedTemp(storeIsCelsius.value, weather.dewpoint_c, weather.dewpoint_f)
         },
     ];
@@ -53,6 +53,7 @@ const minHeight = <string>"10rem";
 <template>
     <div class="details-wrapper">
         <UvIndex :loading="storeWeatherLoading" :uv="currentWeather.uv" :min-height="minHeight" />
+        <AstroInfo :loading="storeWeatherLoading" :astro="currentAstro" :min-height="minHeight" />
 
         <CardWeather v-for="card in cards" :loading="storeWeatherLoading" :label="card.label" :min-height="minHeight">
             <template v-slot:icon>
@@ -62,33 +63,20 @@ const minHeight = <string>"10rem";
                 <CardWeatherBottom :desc="card.desc" />
             </template>
         </CardWeather>
-
-        <AstroInfo :loading="storeWeatherLoading" :astro="currentAstro" :min-height="minHeight" />
     </div>
 </template>
 
 <style scoped>
 .details-wrapper {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: row dense;
     gap: .5rem;
 }
 
 @media (min-width: 600px) {
     .details-wrapper {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (min-width: 900px) {
-    .details-wrapper {
-        grid-template-columns: repeat(6, 1fr);
-    }
-}
-
-@media (min-width: 1200px) {
-    .details-wrapper {
-        grid-template-columns: repeat(8, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     }
 }
 </style>

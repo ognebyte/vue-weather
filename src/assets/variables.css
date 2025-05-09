@@ -1,13 +1,17 @@
 :root {
     --primary-text-color: var(--pv-primary-color);
+    --primary-text-inverse-color: var(--pv-primary-inverse-color);
     --secondary-text-color: var(--pv-surface-500);
     --primary-background-gradient-color-1: #c8d8dd;
     --primary-background-gradient-color-2: #8e9eab;
     --border-color: color-mix(in srgb, var(--pv-primary-color) 100%, transparent 100%);
     --card-background-color: color-mix(in srgb, var(--pv-surface-200) 100%, transparent 100%);
-    /* --border-color: #000000; */
+    --card-background-inverse-color: var(--pv-surface-100);
     
     --rem: 14px;
+    --gap-small: .25rem;
+    --gap: .5rem;
+    --gap-large: 1rem;
     --section-gap: 160px;
     --max-width: 1440px;
 }
@@ -16,8 +20,7 @@
     --primary-background-gradient-color-1: #485563;
     --primary-background-gradient-color-2: #29323c;
     --card-background-color: color-mix(in srgb, var(--pv-surface-800) 100%, transparent 50%);
-    /* --border-color: rgba(255, 255, 255, 0.5); */
-    /* --primary-background-gradient-color: linear-gradient(25deg, rgb(118,105,129) 0%, rgb(154,138,157) 50%, rgb(118,109,130) 100%); */
+    --card-background-inverse-color: var(--pv-surface-900);
 }
 
 @media (min-width: 600px) {

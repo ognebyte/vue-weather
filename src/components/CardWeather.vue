@@ -31,7 +31,7 @@ defineProps({
     <div :class="['card', isClickable ? 'card-button' : null]" @click="onClick" :style="{ minHeight }">
         <Skeleton v-if="loading" height="100%" :style="{ minHeight }" />
         <div v-else class="card-content">
-            <div v-if="label" class="card-label">
+            <div v-if="label" class="card-label secondary-text-color">
                 <slot name="icon" />
                 <h3 class="small-text">{{ label }}</h3>
             </div>

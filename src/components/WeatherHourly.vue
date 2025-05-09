@@ -18,7 +18,7 @@ const currentWeatherHourly = computed(() => {
 </script>
 
 <template>
-    <CardWeather :loading="storeWeatherLoading" label="Hourly weather" minHeight="15rem">
+    <CardWeather :loading="storeWeatherLoading" label="Hourly weather" minHeight="12rem">
         <template v-slot:icon>
             <i class="pi pi-clock"></i>
         </template>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { Divider, Knob } from 'primevue'
+import { Button, Divider, Knob } from 'primevue'
+import moment from 'moment'
 import { storeWeather } from '@/store/store'
 import { getFormattedAqi } from '@/utils/getFormattedAqi'
 import CardWeather from '@/components/CardWeather.vue'
 import IconFaceMask from '@/components/icons/IconFaceMask.vue'
-import moment from 'moment'
 
 
 const storeWeatherLoading = computed(() => storeWeather.loading)
@@ -77,7 +77,6 @@ function toggleExpanded() {
         </template>
         <template v-slot:addition>
             <div class="flex-column gap-large">
-                <!-- Заголовок с кликом -->
                 <div class="flex-row gap-large" style="cursor: pointer">
                     <p class="h1-style">{{ primaryPollutant.formattedAqi.aqi }}</p>
                     <div class="flex-column gap">
@@ -89,7 +88,6 @@ function toggleExpanded() {
                     </div>
                 </div>
 
-                <!-- Индикатор -->
                 <div class="aqi-wrapper">
                     <span class="aqi-progress" :style="{
                         width: `${primaryPollutant.formattedAqi.aqi * 100 / primaryPollutant.formattedAqi.aqiMax}%`,
@@ -101,13 +99,11 @@ function toggleExpanded() {
 
                 <div class="flex-row gap" @click="toggleExpanded" style="cursor: pointer;">
                     <Divider />
-                    <p class="secondary-text-color" style="flex-shrink: 0;">
-                        {{ expanded ? 'Hide all' : 'Show all' }}
-                    </p>
+                    <Button severity="secondary" variant="text" style="flex-shrink: 0;"
+                        :label="expanded ? 'Hide all' : 'Show all'" />
                     <Divider />
                 </div>
 
-                <!-- Расширяемый список -->
                 <transition name="fade">
                     <div v-if="expanded">
                         <p class="h4-style secondary-text-color">All pollutants</p>
@@ -117,8 +113,8 @@ function toggleExpanded() {
                                 <div class="flex-row">
                                     <div class="flex-row gap-large">
                                         <Knob v-model="pollutant.formattedAqi.aqi" :max="pollutant.formattedAqi.aqiMax"
-                                            :valueColor="pollutant.formattedAqi.category.color" :size="72" :strokeWidth="10"
-                                            readonly style="align-items: center; display: flex;" :pt="{
+                                            :valueColor="pollutant.formattedAqi.category.color" :size="72"
+                                            :strokeWidth="10" readonly style="align-items: center; display: flex;" :pt="{
                                                 value: { style: { strokeLinecap: 'round' } },
                                                 range: { style: { strokeLinecap: 'round' } }
                                             }" />
