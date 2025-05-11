@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import CardWeather from '@/components/CardWeather.vue';
 import CardWeatherBottom from '@/components/CardWeatherBottom.vue';
 
 
 const props = defineProps<{
-    loading: boolean
     uv: number
-    minHeight: string
 }>()
 
 
@@ -54,30 +51,23 @@ function uvCategory(uv: number) {
 </script>
 
 <template>
-    <CardWeather :loading="loading" label="UV Index" :min-height="minHeight" style="grid-column: span 2;">
-        <template v-slot:icon>
-            <i class="pi pi-sun"></i>
-        </template>
+    <CardWeatherBottom :desc="currentUV.category.label">
         <template v-slot:addition>
-            <CardWeatherBottom :desc="currentUV.category.label">
-                <template v-slot:addition>
-                    <div class="uv-wrapper">
-                        <div class="uv-thumb-wrapper" :style="{ width: `calc(100% - ${uvThumbSize})` }">
-                            <div class="uv-thumb" :style="{
-                                width: uvThumbSize,
-                                height: uvThumbSize,
-                                marginLeft: currentUV.position,
-                                backgroundColor: currentUV.category.color
-                            }">
-                                <p style="color: black;">{{ currentUV.uv }}</p>
-                            </div>
-                        </div>
-                        <span class="uv-background"></span>
+            <div class="uv-wrapper">
+                <div class="uv-thumb-wrapper" :style="{ width: `calc(100% - ${uvThumbSize})` }">
+                    <div class="uv-thumb" :style="{
+                        width: uvThumbSize,
+                        height: uvThumbSize,
+                        marginLeft: currentUV.position,
+                        backgroundColor: currentUV.category.color
+                    }">
+                        <p style="color: black;">{{ currentUV.uv }}</p>
                     </div>
-                </template>
-            </CardWeatherBottom>
+                </div>
+                <span class="uv-background"></span>
+            </div>
         </template>
-    </CardWeather>
+    </CardWeatherBottom>
 </template>
 
 <style scoped>

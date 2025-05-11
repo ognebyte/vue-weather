@@ -76,12 +76,6 @@ header {
     z-index: 10;
 }
 
-.header-wrapper {
-    max-width: var(--max-width);
-    margin: auto;
-    padding: 1rem 1.5rem;
-}
-
 .header-on-scroll {
     background-color: var(--card-background-color);
     border-color: var(--secondary-text-color);
@@ -124,17 +118,6 @@ footer {
     transform: scale(.98);
 }
 
-.forecast-wrapper {
-    display: grid;
-    grid-auto-columns: minmax(6rem, max-content);
-    grid-auto-flow: column;
-    overflow-x: auto;
-}
-
-.forecast-wrapper .card-content {
-    gap: var(--gap-small);
-}
-
 .active-card {
     background-color: var(--card-background-inverse-color);
 }
@@ -159,6 +142,19 @@ footer {
     flex-direction: column;
     margin-top: auto;
     gap: var(--gap-large);
+}
+
+.ul-list {
+    li {
+        display: inline-flex;
+        flex-shrink: 0;
+        align-items: center;
+        gap: var(--gap-small);
+    }
+}
+
+.full-span {
+    grid-column: 1 / -1;
 }
 
 .flex-row {
@@ -190,15 +186,6 @@ footer {
 
 .secondary-text-color {
     color: var(--secondary-text-color);
-}
-
-.ul-list {
-    li {
-        display: inline-flex;
-        flex-shrink: 0;
-        align-items: center;
-        gap: var(--gap-small);
-    }
 }
 
 

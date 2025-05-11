@@ -20,7 +20,7 @@ defineProps({
         type: Boolean,
         default: false,
     },
-    onClick: {
+    click: {
         type: Function as PropType<() => void>,
         default: undefined,
     },
@@ -28,7 +28,7 @@ defineProps({
 </script>
 
 <template>
-    <div :class="['card', isClickable ? 'card-button' : null]" @click="onClick" :style="{ minHeight }">
+    <div :class="['card', isClickable ? 'card-button' : null]" @click="click" :style="{ minHeight }">
         <Skeleton v-if="loading" height="100%" :style="{ minHeight }" />
         <div v-else class="card-content">
             <div v-if="label" class="card-label secondary-text-color">

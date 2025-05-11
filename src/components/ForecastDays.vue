@@ -15,7 +15,6 @@ const forecastDay = computed(() => {
 const storeWeatherLoading = computed(() => storeWeather.loading);
 const storeWeatherPrevDayIndex = computed(() => {
     let prevDayIndex = storeWeather.prevDayIndex
-    if (prevDayIndex === -1) prevDayIndex = 0
     return prevDayIndex
 });
 
@@ -33,7 +32,7 @@ function routeDay(dayIndex: number) {
 <template>
     <div class="forecast-wrapper gap">
         <CardWeather v-for="(forecast, index) in forecastDay" :loading="storeWeatherLoading" min-height="12rem"
-            :isClickable="true" :onClick="() => routeDay(index)"
+            :isClickable="true" :click="() => routeDay(index)"
             :class="storeWeatherPrevDayIndex === index ? 'active-card' : null">
             <template v-slot:addition>
                 <ForecastWeather :forecast-day="forecast" />
@@ -41,3 +40,16 @@ function routeDay(dayIndex: number) {
         </CardWeather>
     </div>
 </template>
+
+<style scoped>
+.forecast-wrapper {
+    display: grid;
+    grid-auto-columns: minmax(6rem, max-content);
+    grid-auto-flow: column;
+    overflow-x: auto;
+}
+
+.forecast-wrapper .card-content {
+    gap: var(--gap-small);
+}
+</style>

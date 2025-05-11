@@ -149,6 +149,7 @@ export interface HourlyForecast {
     diff_rad: number;
     short_rad: number;
     snow_cm: number;
+    [key: string]: any;
 }
 
 export interface WeatherAlert {

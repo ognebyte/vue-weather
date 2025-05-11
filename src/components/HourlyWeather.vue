@@ -7,6 +7,7 @@ import type { HourlyForecast } from '@/utils/weatherInterface';
 import { getFormattedTemp } from '@/utils/getFormattedTemp';
 import IconSnow from '@/components/icons/IconSnow.vue';
 import IconDroplets from '@/components/icons/IconDroplets.vue';
+import { getFormattedTime } from '@/utils/getFormattedTime';
 
 
 defineProps<{
@@ -27,17 +28,6 @@ function scroll(direction: 'left' | 'right') {
     container.scrollBy({ left: direction === 'right' ? scrollAmount : -scrollAmount, behavior: 'smooth' });
 };
 
-function formatTime(time: string) {
-    const m = moment(time, storeWeatherDateFormat.value);
-    const current = moment(storeWeatherCurrentHour.value.time, storeWeatherDateFormat.value);
-
-
-    if (storeWeatherPrevDayIndex.value === 0 && m.isSame(current)) return 'Now';
-    return m.format('HH:mm') === '00:00'
-        ? m.format('ddd, HH:mm')
-        : m.format('HH:mm');
-}
-
 function isNewDay(time: string) {
     return moment(time, storeWeatherDateFormat.value).format('HH:mm') === '00:00';
 };
@@ -53,7 +43,8 @@ function isNewDay(time: string) {
                 <Divider v-if="index !== 0 && isNewDay(hour.time)" layout="vertical" />
                 <div class="flex-column gap-small" style="align-items: center;">
                     <p class="secondary-text-color">
-                        {{ formatTime(hour.time) }}
+                        {{ getFormattedTime(hour.time, storeWeatherCurrentHour.time, storeWeatherDateFormat,
+                        storeWeatherPrevDayIndex) }}
                     </p>
                     <img width="64" height="64" :src="'https:' + hour.condition.icon.replace('64x64', '128x128')"
                         :alt="hour.condition.text" />
@@ -76,6 +67,7 @@ function isNewDay(time: string) {
 
 <style scoped>
 .hourly-wrapper {
+    flex: 1;
     position: relative;
     align-items: stretch;
     gap: .5rem;
@@ -84,9 +76,7 @@ function isNewDay(time: string) {
 .hourly-scroll {
     flex: 1;
     display: flex;
-    padding-top: 0.5rem;
-    padding-inline: 0.5rem;
-    padding-bottom: 1rem;
+    padding: 0.5rem;
     gap: 0.5rem;
     scroll-behavior: smooth;
     overflow-x: auto;

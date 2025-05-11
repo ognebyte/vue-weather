@@ -24,28 +24,28 @@ const iconSize = "1.5rem";
             <h3><span class="secondary-text-color">Forecast for</span> {{ moment(storeWeatherCurrentHour.time,
                 storeWeatherDateFormat).format('dddd, D MMM, HH:mm (UTCZ)') }}</h3>
             <div class="weather-main-info flex-column wrap gap" style="align-items: center;">
+                <p class="h2-style secondary-text-color">{{ storeWeatherCurrentHour.condition.text }}</p>
+
+                <img class="weather-condition-icon" width="128" height="128"
+                    :src="'https:' + storeWeatherCurrentHour.condition.icon.replace('64x64', '128x128')"
+                    :alt="storeWeatherCurrentHour.condition.text" />
+
                 <div class="flex-column">
                     <p class="h1-style">
-                        {{ getFormattedTemp(storeWeatherIsCelsius, storeWeatherCurrentHour.temp_c, storeWeatherCurrentHour.temp_f) }}
+                        {{ getFormattedTemp(storeWeatherIsCelsius, storeWeatherCurrentHour.temp_c,
+                            storeWeatherCurrentHour.temp_f) }}
                     </p>
                     <p class="secondary-text-color">
                         feels like {{ getFormattedTemp(storeWeatherIsCelsius, storeWeatherCurrentHour.feelslike_c,
                             storeWeatherCurrentHour.feelslike_f) }}
                     </p>
                 </div>
-
-                <img class="weather-condition-icon" width="128" height="128"
-                    :src="'https:' + storeWeatherCurrentHour.condition.icon.replace('64x64', '128x128')"
-                    :alt="storeWeatherCurrentHour.condition.text" />
-
-                <p class="h2-style">{{ storeWeatherCurrentHour.condition.text }}</p>
-
             </div>
 
             <ul class="ul-list flex-column wrap gap-large">
                 <li>
                     <IconWind :size="iconSize" />
-                    {{ storeWeatherCurrentHour.wind_kph }} kph / {{ storeWeatherCurrentHour.wind_mph }} mph
+                    {{ storeWeatherCurrentHour.wind_kph }} kph
                     <IconDirection :size="iconSize" :rotate="storeWeatherCurrentHour.wind_degree" />
                 </li>
                 <li>
@@ -54,7 +54,7 @@ const iconSize = "1.5rem";
                 </li>
                 <li>
                     <IconPressure :size="iconSize" />
-                    {{ storeWeatherCurrentHour.pressure_mb }} mb / {{ storeWeatherCurrentHour.pressure_in }} in
+                    {{ storeWeatherCurrentHour.pressure_mb }} mb
                 </li>
             </ul>
         </template>
@@ -62,17 +62,21 @@ const iconSize = "1.5rem";
 </template>
 
 <style scoped>
-@media (min-width: 600px) {
-    .weather-main-info {
-        flex-direction: row;
-    }
-
+@media (min-width: 500px) {
+    .weather-main-info,
     .ul-list {
         flex-direction: row;
     }
 }
 
 @media (min-width: 900px) {
+    @media (min-width: 600px) {
+        .weather-main-info,
+        .ul-list {
+            flex-direction: inherit;
+        }
+    }
+
     .weather-condition-icon {
         width: 128px;
         height: 128px;

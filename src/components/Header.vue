@@ -75,3 +75,11 @@ onMounted(() => {
         </div>
     </div>
 </template>
+
+<style scoped>
+.header-wrapper {
+    max-width: var(--max-width);
+    margin: auto;
+    padding: 1rem 1.5rem;
+}
+</style>

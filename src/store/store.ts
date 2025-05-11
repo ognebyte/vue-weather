@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import moment from 'moment'
 import { fetchSearchLocation, fetchWeather } from '@/api/weatherApi'
-import type { ForecastDay, HourlyForecast, SearchLocation, WeatherData } from '@/utils/weatherInterface'
+import type { ForecastDay, SearchLocation } from '@/utils/weatherInterface'
 import { initialStateForecastDay, initialStateHourlyForecast, initialStateWeatherData } from '@/utils/weatherInititalStates'
 
 
@@ -25,8 +25,13 @@ export const storeWeather = reactive({
     data: initialStateWeatherData,
     current: initialStateForecastDay,
     currentHour: initialStateHourlyForecast,
-    prevQuery: '',
+    prevQuery: "",
     prevDayIndex: -1,
+    currentChart: {
+        label: '',
+        type: '',
+        format: ''
+    },
 
     initialStateData() {
         this.loading = true
@@ -34,8 +39,17 @@ export const storeWeather = reactive({
         this.data = initialStateWeatherData
         this.current = initialStateForecastDay
         this.currentHour = initialStateHourlyForecast
-        this.prevQuery = ''
+        this.prevQuery = ""
         this.prevDayIndex = -1
+        this.currentChart = {
+            label: '',
+            type: '',
+            format: ''
+        }
+    },
+
+    setChart(chart: { label: string, type: string, format: string }) {
+        this.currentChart = chart
     },
 
     async changeLocation(query: string, dayIndex: number = 0) {
@@ -45,6 +59,7 @@ export const storeWeather = reactive({
                 const result = await fetchWeather(query);
                 this.data = result;
                 this.prevQuery = query
+                console.log(result)
             }
             const forecastday = this.data.forecast.forecastday;
             let selectedDay = forecastday[dayIndex];

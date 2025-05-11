@@ -77,7 +77,7 @@ function toggleExpanded() {
         </template>
         <template v-slot:addition>
             <div class="flex-column gap-large">
-                <div class="flex-row gap-large" style="cursor: pointer">
+                <div class="flex-row gap-large">
                     <p class="h1-style">{{ primaryPollutant.formattedAqi.aqi }}</p>
                     <div class="flex-column gap">
                         <p class="h3-style bold-text">{{ primaryPollutant.formattedAqi.category.name }}</p>
@@ -97,10 +97,10 @@ function toggleExpanded() {
                     <span class="aqi-background"></span>
                 </div>
 
-                <div class="flex-row gap" @click="toggleExpanded" style="cursor: pointer;">
+                <div class="flex-row gap">
                     <Divider />
                     <Button severity="secondary" variant="text" style="flex-shrink: 0;"
-                        :label="expanded ? 'Hide all' : 'Show all'" />
+                        :label="expanded ? 'Hide all' : 'Show all'" @click="toggleExpanded" />
                     <Divider />
                 </div>
 
