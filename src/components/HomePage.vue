@@ -8,7 +8,7 @@ import WeatherHourly from '@/components/WeatherHourly.vue';
 import WeatherChart from '@/components/WeatherChart.vue';
 import WeatherDetails from '@/components/WeatherDetails.vue';
 import AirQuality from '@/components/AirQuality.vue';
-import Alerts from '@/components/Alerts.vue';
+import AlertsItems from '@/components/AlertsItems.vue';
 
 
 const route = useRoute()
@@ -45,7 +45,7 @@ watch(() => route.query, (query) => {
         <WeatherChart class="full-span weather-chart" />
         <WeatherDetails />
         <AirQuality class="full-span" />
-        <Alerts class="full-span" />
+        <AlertsItems class="full-span" />
     </section>
 </template>
 

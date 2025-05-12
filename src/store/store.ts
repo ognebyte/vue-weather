@@ -1,11 +1,11 @@
 import { reactive } from 'vue'
 import moment from 'moment'
 import { fetchSearchLocation, fetchWeather } from '@/api/weatherApi'
-import type { ForecastDay, SearchLocation } from '@/utils/weatherInterface'
+import type { ForecastDay, HourlyForecast, SearchLocation } from '@/utils/weatherInterface'
 import { initialStateForecastDay, initialStateHourlyForecast, initialStateWeatherData } from '@/utils/weatherInititalStates'
 
 
-function getClosestHourFromForecast(forecastDay: ForecastDay, currentDate: string): any {
+function getClosestHourFromForecast(forecastDay: ForecastDay, currentDate: string): HourlyForecast {
     const currentHour = moment(currentDate, storeWeather.dateFormat).hour();
     const closestHour = forecastDay.hour.reduce((prev, curr) => {
         const currHour = moment(curr.time).hour();
@@ -59,7 +59,6 @@ export const storeWeather = reactive({
                 const result = await fetchWeather(query);
                 this.data = result;
                 this.prevQuery = query
-                console.log(result)
             }
             const forecastday = this.data.forecast.forecastday;
             let selectedDay = forecastday[dayIndex];

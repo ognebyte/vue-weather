@@ -23,7 +23,7 @@ const iconSize = "1rem";
     </p>
     <img width="64" height="64" :src="'https:' + forecastDay.day.condition.icon.replace('64x64', '128x128')"
         class="forecast-condition-icon" :alt="forecastDay.day.condition.text">
-    <div class="ul-list flex-column gap">
+    <ul class="ul-list flex-column gap">
         <li class="flex-column h4-style bold-text" style="align-items: flex-start; gap: 0;">
             {{ getFormattedTemp(storeWeatherIsCelsius, forecastDay.day.maxtemp_c, forecastDay.day.maxtemp_f) }}
             <span class="small-text secondary-text-color">
@@ -39,7 +39,7 @@ const iconSize = "1rem";
                     forecastDay.day.daily_chance_of_rain
             }}%
         </li>
-    </div>
+    </ul>
 </template>
 
 <style scoped>

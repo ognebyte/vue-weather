@@ -20,7 +20,7 @@ const currentAlerts = computed(() => storeWeather.data.alerts.alert);
                 <p class="h4-style secondary-text-color">No alerts</p>
             </div>
             <div v-else class="alerts-wrapper">
-                <div v-for="(alert, index) in currentAlerts">
+                <div v-for="(alert, index) in currentAlerts" :key="`${alert.event}-${index}`">
                     <Divider v-if="index != 0" />
                     <div class="flex-column gap">
                         <p class="h4-style">{{ alert.headline }}</p>

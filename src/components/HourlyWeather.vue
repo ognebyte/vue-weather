@@ -35,7 +35,7 @@ function isNewDay(time: string) {
 
 <template>
     <div class="flex-row hourly-wrapper">
-        <Button class="scroll-btn" icon="pi pi-chevron-left" severity="secondary" @click="scroll('left')" />
+        <Button class="scroll-btn" icon="pi pi-chevron-left" severity="secondary" @click="scroll('left')" aria-label="Sroll left" />
 
         <div class="hourly-scroll" ref="scrollContainer">
             <div v-for="(hour, index) in hourlyForecast" :key="hour.time" class="flex-row"
@@ -61,7 +61,7 @@ function isNewDay(time: string) {
             </div>
         </div>
 
-        <Button class="scroll-btn" icon="pi pi-chevron-right" severity="secondary" @click="scroll('right')" />
+        <Button class="scroll-btn" icon="pi pi-chevron-right" severity="secondary" @click="scroll('right')" aria-label="Sroll right" />
     </div>
 </template>
 

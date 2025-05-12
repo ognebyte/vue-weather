@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
-import Header from "@/components/Header.vue";
+import { SpeedInsights } from '@vercel/speed-insights/vue';
 import { onMounted, onUnmounted, ref } from "vue";
+import { RouterView } from "vue-router";
+import HeaderContent from "@/components/HeaderContent.vue";
+import FooterContent from "@/components/FooterContent.vue";
 
 
 const headerRef = ref<HTMLElement>();
@@ -28,7 +30,7 @@ onMounted(() => {
 
 <template>
     <header ref="headerRef">
-        <Header />
+        <HeaderContent />
     </header>
 
     <main>
@@ -36,6 +38,8 @@ onMounted(() => {
     </main>
 
     <footer>
-        
+        <FooterContent />
     </footer>
+
+    <SpeedInsights />
 </template>

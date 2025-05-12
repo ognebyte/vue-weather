@@ -1,39 +1,48 @@
-# vue-weather
+# 🌧️ VueWeather 
 
-This template should help get you started developing with Vue 3 in Vite.
+Приложение прогноза погоды на Vue 3 с использованием TypeScript и PrimeVue.
+Показывает прогноз на несколько дней и часов с интерактивными графиками, переключением единиц измерения (°C/°F) и адаптивной вёрсткой.
 
-## Recommended IDE Setup
+## 🌍 Возможности
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- 📍 Прогноз погоды по местоположению
+- 📅 Прогноз на 3 дня
+- 🕒 Почасовой прогноз
+- 📊 Интерактивные графики (UV, ветер, влажность и др.)
+- 🌗 Восход, закат, фазы луны и др.
+- 🌐 Поддержка тёмной и светлой темы
+- 📱 Адаптивный интерфейс (поддержка мобильных устройств)
+- 🌡️ Переключение между Цельсием и Фаренгейтом
 
-## Type Support for `.vue` Imports in TS
+## 🔧 Технологии
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- [Vue 3](https://vuejs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [PrimeVue](https://primevue.org/) (UI-компоненты)
+- Данные о погоде — [WeatherAPI](https://www.weatherapi.com/)
 
-## Customize configuration
+## 🛠️ Установка
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+1. Клонируйте репозиторий:
 
-## Project Setup
+```
+git clone https://github.com/your-username/weather-app.git
+cd weather-app
+```
 
-```sh
+2. Установите зависимости:
+
+```
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+3. Создайте .env файл в корне проекта:
+```
+VITE_API_URL=https://api.weatherapi.com/v1
+VITE_API_KEY=ваш_api_ключ
+```
 
-```sh
+4. Запустите локальный сервер:
+```
 npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
 ```

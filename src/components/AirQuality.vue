@@ -10,7 +10,7 @@ import IconFaceMask from '@/components/icons/IconFaceMask.vue'
 
 const storeWeatherLoading = computed(() => storeWeather.loading)
 const allPollutants = computed(() => {
-    let airQuality = storeWeather.data.current.air_quality;
+    const airQuality = storeWeather.data.current.air_quality;
     return [
         {
             name: 'PM2.5',
@@ -57,7 +57,7 @@ const allPollutants = computed(() => {
     ]
 })
 const primaryPollutant = computed(() => {
-    let arr = allPollutants.value;
+    const arr = allPollutants.value;
     const max = arr.reduce((max, current) => current.formattedAqi.aqi > max.formattedAqi.aqi ? current : max);
     return max;
 })

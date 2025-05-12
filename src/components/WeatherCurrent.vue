@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, h } from 'vue'
 import moment from 'moment';
 import { storeWeather } from '@/store/store';
 import { getFormattedTemp } from '@/utils/getFormattedTemp';
 import CardWeather from '@/components/CardWeather.vue';
 
 import IconWind from '@/components/icons/IconWind.vue';
-import IconDroplet from '@/components/icons/IconDroplet.vue';
+import IconDroplets from '@/components/icons/IconDroplets.vue';
 import IconPressure from '@/components/icons/IconPressure.vue';
 import IconDirection from '@/components/icons/IconDirection.vue';
+import { getMoonPhaseIcon } from '@/utils/getMoonPhaseIcon';
 
 
 const storeWeatherLoading = computed(() => storeWeather.loading);
 const storeWeatherIsCelsius = computed(() => storeWeather.isCelsius);
 const storeWeatherDateFormat = computed(() => storeWeather.dateFormat);
+const storeWeatherCurrent = computed(() => storeWeather.current);
 const storeWeatherCurrentHour = computed(() => storeWeather.currentHour);
 const iconSize = "1.5rem";
 </script>
@@ -49,12 +51,19 @@ const iconSize = "1.5rem";
                     <IconDirection :size="iconSize" :rotate="storeWeatherCurrentHour.wind_degree" />
                 </li>
                 <li>
-                    <IconDroplet :size="iconSize" />
-                    {{ storeWeatherCurrentHour.humidity }}%
+                    <IconDroplets :size="iconSize" />
+                    <span class="secondary-text-color">
+                        Chance of rain:
+                    </span>
+                    {{ storeWeatherCurrentHour.chance_of_rain }}%
                 </li>
                 <li>
-                    <IconPressure :size="iconSize" />
-                    {{ storeWeatherCurrentHour.pressure_mb }} mb
+                    <component :is="getMoonPhaseIcon(storeWeatherCurrent.astro.moon_phase, iconSize)"
+                        style="color: var(--pv-surface-950);" />
+                    {{ storeWeatherCurrent.astro.moon_phase }}
+                    <span class="secondary-text-color">
+                        (illumination {{ storeWeatherCurrent.astro.moon_illumination }}%)
+                    </span>
                 </li>
             </ul>
         </template>
@@ -63,6 +72,7 @@ const iconSize = "1.5rem";
 
 <style scoped>
 @media (min-width: 500px) {
+
     .weather-main-info,
     .ul-list {
         flex-direction: row;
@@ -71,6 +81,7 @@ const iconSize = "1.5rem";
 
 @media (min-width: 900px) {
     @media (min-width: 600px) {
+
         .weather-main-info,
         .ul-list {
             flex-direction: inherit;

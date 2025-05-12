@@ -9,7 +9,6 @@ import type {
     ForecastDay,
     WeatherAlert,
     WeatherData,
-    SearchLocation
 } from "@/utils/weatherInterface";
 
 

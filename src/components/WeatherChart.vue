@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, watch, onBeforeUnmount, h } from 'vue';
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import Chart from 'primevue/chart';
 import moment from 'moment';
 import { storeWeather } from '@/store/store';
@@ -15,7 +15,7 @@ const storeWeatherCurrentHour = computed(() => storeWeather.currentHour);
 
 const chartData = computed(() => {
     const currentTime = moment(storeWeather.currentHour.time, storeWeather.dateFormat);
-    let time = currentTime.hours() > 0 ?
+    const time = currentTime.hours() > 0 ?
         currentTime.subtract(1, 'hour').format(storeWeather.dateFormat) :
         currentTime.set({ hour: 0, minute: 0 }).format(storeWeather.dateFormat)
     const dayIndex = storeWeather.prevDayIndex;
@@ -103,7 +103,12 @@ const setChartOptions = () => {
             <i class="pi pi-chart-line"></i>
         </template>
         <template v-slot:addition>
-            <h4>{{ storeWeather.currentChart.label }}</h4>
+            <p class="h4-style bold-text">
+                {{ storeWeather.currentChart.label }}
+                <span v-if="storeWeather.currentChart.format" class="secondary-text-color">
+                    ({{ storeWeather.currentChart.format }})
+                </span>
+            </p>
             <div class="chart-wrapper">
                 <Chart class="chart" type="line" :data="chartData" :options="chartOptions" />
             </div>

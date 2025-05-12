@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h, onMounted, watch } from 'vue';
+import { computed, h, watch } from 'vue';
 import { storeWeather } from '@/store/store';
 import { initialStateAstro } from '@/utils/weatherInititalStates';
 import { getFormattedTemp } from '@/utils/getFormattedTemp';
@@ -16,6 +16,15 @@ import IconDewPoint from '@/components/icons/IconDewPoint.vue';
 import IconPressure from '@/components/icons/IconPressure.vue';
 
 
+interface cardInterface {
+    label: string,
+    icon: any,
+    desc: string | number,
+    type: string,
+    format?: string
+}
+
+
 const storeWeatherLoading = computed(() => storeWeather.loading);
 const storeWeatherIsCelsius = computed(() => storeWeather.isCelsius);
 const storeWeatherCurrentChart = computed(() => storeWeather.currentChart);
@@ -27,7 +36,7 @@ const currentAstro = computed(() => {
 const weatherCards = computed(() => {
     const weather = currentHour.value;
     const isCelsius = storeWeatherIsCelsius.value;
-    let cards = [
+    const cards: cardInterface[] = [
         {
             label: 'UV Index',
             icon: h('i', { class: 'pi pi-sun' }),
@@ -104,7 +113,7 @@ watch(storeWeatherIsCelsius, () => {
     }
 });
 
-function setChart(card: any) {
+function setChart(card: cardInterface) {
     if (storeWeatherCurrentChart.value.type === card.type) return;
     storeWeather.setChart({
         label: card.label,
@@ -115,7 +124,7 @@ function setChart(card: any) {
 </script>
 
 <template>
-    <CardWeather v-for="card in weatherCards" :loading="storeWeatherLoading" :label="card.label" :min-height="minHeight"
+    <CardWeather v-for="card in weatherCards" :key="card.type" :loading="storeWeatherLoading" :label="card.label" :min-height="minHeight"
         :class="storeWeatherCurrentChart.type == card.type ? 'active-card' : null"
         :style="{ gridColumn: card.type == 'uv' ? 'span 2' : 'span 1' }" :is-clickable="true"
         :click="() => setChart(card)">

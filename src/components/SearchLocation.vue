@@ -12,7 +12,7 @@ const visible = ref(false)
 const recentSearches = ref<SearchLocation[]>([])
 const inputSearch = ref<string>('')
 const showLoading = ref(false)
-var debounceTimeout: ReturnType<typeof setTimeout>
+let debounceTimeout: ReturnType<typeof setTimeout>
 
 const isRecent = computed(() => inputSearch.value.length === 0)
 const displayLocations = computed(() => isRecent.value ? recentSearches.value : storeSearchLocations.data)
@@ -57,7 +57,7 @@ watch(inputSearch, (val) => {
 })
 
 onMounted(() => {
-    let localStore = localStorage.getItem('recentSearches')
+    const localStore = localStorage.getItem('recentSearches')
     if (localStore) recentSearches.value = JSON.parse(localStore);
 })
 </script>

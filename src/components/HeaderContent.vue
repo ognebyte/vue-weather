@@ -32,7 +32,7 @@ const tempOptions = [
 
 
 function toggleTempType() {
-    localStorage.setItem('isCelsius', storeWeatherIsCelsius ? 'true' : 'false')
+    localStorage.setItem('isCelsius', storeWeatherIsCelsius.value ? 'true' : 'false')
 }
 
 function toggleDarkMode() {
@@ -42,11 +42,11 @@ function toggleDarkMode() {
 }
 
 onMounted(() => {
-    let temp = localStorage.getItem('isCelsius')
+    const temp = localStorage.getItem('isCelsius')
     if (!temp) localStorage.setItem('isCelsius', 'true')
     else storeWeatherIsCelsius.value = JSON.parse(temp)
 
-    let theme = localStorage.getItem('theme')
+    const theme = localStorage.getItem('theme')
     if (!theme) localStorage.setItem('theme', 'light')
     else if (theme === 'dark') toggleDarkMode()
 })
@@ -69,7 +69,7 @@ onMounted(() => {
                 <SearchLocation />
                 <SelectButton v-model:model-value="storeWeatherIsCelsius" option-value="isCelsius"
                     :options="tempOptions" option-label="name" :allow-empty="false" @change="toggleTempType()" />
-                <Button :icon="isDarkMode ? 'pi pi-moon' : 'pi pi-sun'" severity="secondary"
+                <Button :icon="isDarkMode ? 'pi pi-moon' : 'pi pi-sun'" severity="secondary" aria-label="Theme switcher"
                     @click="toggleDarkMode()" />
             </div>
         </div>
@@ -80,6 +80,6 @@ onMounted(() => {
 .header-wrapper {
     max-width: var(--max-width);
     margin: auto;
-    padding: 1rem 1.5rem;
+    padding: var(--gap-large);
 }
 </style>

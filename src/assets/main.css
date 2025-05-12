@@ -10,6 +10,18 @@ li {
     list-style: none;
 }
 
+a {
+    transition: .3s ease opacity;
+}
+
+a:hover {
+    opacity: .8;
+}
+
+a:active {
+    opacity: .6;
+}
+
 h1,
 .h1-style {
     font-size: 3rem;
@@ -86,14 +98,14 @@ main {
     width: 100%;
     max-width: var(--max-width);
     margin: auto;
-    margin-block: 1rem 2rem;
-    padding-inline: 1.5rem;
+    margin-block: var(--gap-large);
+    padding-inline: var(--gap-large);
 }
 
 footer {
+    display: flex;
     margin-top: auto;
-    height: 10rem;
-    background-color: var(--secondary-text-color);
+    background-color: var(--card-background-color);
 }
 
 .card {
@@ -186,11 +198,4 @@ footer {
 
 .secondary-text-color {
     color: var(--secondary-text-color);
-}
-
-
-@media (hover: hover) {
-    a:hover {
-        background-color: hsla(160, 100%, 37%, 0.2);
-    }
 }

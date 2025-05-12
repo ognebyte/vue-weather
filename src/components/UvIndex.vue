@@ -9,7 +9,7 @@ const props = defineProps<{
 
 
 const currentUV = computed(() => {
-    let uv = Math.round(props.uv)
+    const uv = Math.round(props.uv)
     return {
         uv,
         position: uvPosition(uv),
@@ -22,7 +22,7 @@ const uvThumbSize = <string>"2rem";
 function uvPosition(uv: number) {
     if (uv > 11) uv = 11;
     if (uv < 0) uv = 0;
-    let position = `${uv * 100 / 11}%`
+    const position = `${uv * 100 / 11}%`
     return position
 }
 
